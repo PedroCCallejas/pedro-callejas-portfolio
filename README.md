@@ -1,6 +1,6 @@
-# Pedro Callejas — Portfolio
+# Pedro Callejas — Portfólio
 
-Portfólio profissional de Pedro Carvalho Callejas: Full Stack Development, IA, agentes e automação. A interface funciona como uma demonstração do próprio raciocínio de sistemas — com nós, conexões, diagramas e cases orientados a problema, solução e arquitetura.
+Portfólio profissional de Pedro Carvalho Callejas: desenvolvimento Full Stack, IA, agentes, automação e produtos digitais. A interface funciona como uma demonstração do próprio raciocínio de sistemas — com nós, conexões, diagramas e projetos orientados a problema, solução e arquitetura.
 
 ## Stack
 
@@ -39,11 +39,13 @@ src/
 docs/           decisões de arquitetura visual e técnica
 ```
 
-## Projetos e cases
+## Projetos e estudos
 
-Os projetos são definidos em `src/data/projects.ts`. Cada item gera uma página em `/work/[slug]` com seções para overview, problema, solução, arquitetura, demonstração, desafios, aprendizados e resultados.
+Os projetos são definidos em `src/data/projects.ts`. Cada item gera uma página em `/work/[slug]` com visão geral, problema, solução, arquitetura, demonstração, desafios, aprendizados e resultados.
 
-Os agentes de e-mail e controle de projetos começam honestamente como `Building`; o modelo de dados está pronto para receber demonstrações e evidências quando os MVPs forem validados.
+A seleção atual reúne oito projetos: Agente de E-mail com IA, Agente de Controle de Projetos, Professô FC, It’s Me Pratas, Sistema Veterinário, Mapa Espírita, Saldo Financeiro e Calherath TD.
+
+O agente de e-mail possui MVP validado localmente com 103 testes. O agente de controle de projetos e o Calherath TD permanecem marcados como trabalhos em desenvolvimento.
 
 ## Animações
 
@@ -62,9 +64,9 @@ O projeto é compatível com deploy direto na Vercel. Com a integração Git ati
 
 ## Roadmap
 
-- adicionar vídeos e screenshots reais aos cases;
-- concluir e validar o Email AI Agent;
-- concluir e validar o Project Control Agent;
+- adicionar vídeos e imagens reais aos estudos;
+- integrar e publicar o Agente de E-mail com IA;
+- concluir e validar o Agente de Controle de Projetos;
 - substituir conteúdo provisório por resultados comprovados;
 - adicionar domínio próprio e currículo público;
 - avaliar Three.js pontual somente se houver ganho narrativo mensurável.

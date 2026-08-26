@@ -4,19 +4,19 @@ import { useState } from "react";
 
 const detail: Record<string, string[]> = {
   Interface: ["React", "Next.js", "React Native"],
-  Services: ["Node.js", "REST APIs", "Integrations"],
-  Intelligence: ["LLMs", "Agents", "MCP", "RAG", "Tools"],
-  Data: ["PostgreSQL", "Supabase", "Firebase", "MongoDB"],
-  Delivery: ["Vercel", "Railway", "GitHub"],
+  Serviços: ["Node.js", "APIs REST", "Integrações"],
+  Inteligência: ["LLMs", "Agentes", "MCP", "RAG", "Ferramentas"],
+  Dados: ["PostgreSQL", "Supabase", "Firebase", "MongoDB"],
+  Entrega: ["Vercel", "Railway", "GitHub"],
 };
 
 export function HowIBuild() {
-  const [active, setActive] = useState("Intelligence");
+  const [active, setActive] = useState("Inteligência");
 
   return (
     <div className="architecture-board">
       <div className="architecture-flow" aria-label="Diagrama interativo da arquitetura de software">
-        <span className="architecture-user mono">USER / BUSINESS</span>
+        <span className="architecture-user mono">USUÁRIO / NEGÓCIO</span>
         <span className="architecture-connector" aria-hidden="true">↓</span>
         <div className="architecture-grid">
           {Object.keys(detail).map((node, index) => (
@@ -34,11 +34,11 @@ export function HowIBuild() {
           ))}
         </div>
         <span className="architecture-connector" aria-hidden="true">↓</span>
-        <span className="architecture-output mono">USEFUL SOFTWARE</span>
+        <span className="architecture-output mono">SOFTWARE ÚTIL</span>
       </div>
 
       <aside className="architecture-detail" aria-live="polite">
-        <span className="eyebrow">Selected layer</span>
+        <span className="eyebrow">Camada selecionada</span>
         <h3>{active}</h3>
         <ul>
           {detail[active].map((item) => <li key={item}>{item}</li>)}

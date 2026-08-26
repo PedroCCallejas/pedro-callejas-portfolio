@@ -9,18 +9,18 @@ const siteUrl = "https://pedro-callejas-portfolio.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "Pedro Callejas — Full Stack, AI & Automation", template: "%s — Pedro Callejas" },
+  title: { default: "Pedro Callejas — Full Stack, IA e Automação", template: "%s — Pedro Callejas" },
   description: "Portfólio de Pedro Carvalho Callejas: sistemas Full Stack, agentes de IA, automações e produtos digitais.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "pt_BR",
     url: siteUrl,
-    title: "Pedro Callejas — Software that does the work",
+    title: "Pedro Callejas — Software que faz o trabalho",
     description: "Sistemas Full Stack, agentes de IA, automações e produtos digitais para problemas reais.",
     siteName: "Pedro Callejas",
   },
-  twitter: { card: "summary_large_image", title: "Pedro Callejas — Full Stack, AI & Automation", description: "Software that does the work." },
+  twitter: { card: "summary_large_image", title: "Pedro Callejas — Full Stack, IA e Automação", description: "Software que faz o trabalho." },
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#07090b", colorScheme: "dark" };
@@ -30,10 +30,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Pedro Carvalho Callejas",
-    jobTitle: "Full Stack Developer",
+    jobTitle: "Desenvolvedor Full Stack",
     url: siteUrl,
     sameAs: ["https://github.com/PedroCCallejas", "https://br.linkedin.com/in/pedroccallejas"],
-    knowsAbout: ["Full Stack Development", "Next.js", "Artificial Intelligence", "Automation", "Software Architecture"],
+    knowsAbout: ["Desenvolvimento Full Stack", "Next.js", "Inteligência Artificial", "Automação", "Arquitetura de Software"],
   };
 
   return (

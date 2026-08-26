@@ -11,7 +11,7 @@ export function Header() {
     <header className="site-header">
       <a className="brand focus-ring" href="#top" aria-label="Ir para o início">
         <span className="brand-mark">PC</span>
-        <span className="brand-label">Systems Lab</span>
+        <span className="brand-label">Laboratório de Sistemas</span>
       </a>
 
       <nav className="desktop-nav" aria-label="Navegação principal">

@@ -6,8 +6,8 @@ O portfólio apresenta Pedro Carvalho Callejas como alguém que constrói sistem
 
 ## Direção visual
 
-- **Conceito:** Digital Systems Lab.
-- **Paleta:** grafite profundo, branco quente, cyan elétrico e violeta pontual.
+- **Conceito:** Laboratório de Sistemas Digitais.
+- **Paleta:** grafite profundo, branco quente, ciano elétrico e violeta pontual.
 - **Linguagem:** grids, nós, conexões, fluxos de dados e diagramas funcionais.
 - **Tipografia:** Geist para leitura e Geist Mono para estados, índices e metadados.
 - **Tom:** tecnológico e preciso, sem estética gamer ou cyberpunk excessiva.
@@ -24,9 +24,9 @@ O portfólio apresenta Pedro Carvalho Callejas como alguém que constrói sistem
 
 - Hero com rede vetorial reativa.
 - Cards editoriais de capacidade.
-- Projetos data-driven e páginas de case por slug.
+- Projetos orientados a dados e páginas de estudo por slug.
 - Diagrama interativo da arquitetura.
-- Timeline profissional e contato.
+- Mapa de competências em camadas, formação e contato.
 
 ### Não incluir nesta fase
 
@@ -48,8 +48,8 @@ O portfólio apresenta Pedro Carvalho Callejas como alguém que constrói sistem
 - Server Components para páginas e conteúdo.
 - Client Components somente para navegação, reveals e diagramas interativos.
 - Tailwind CSS para fundação utilitária e CSS global para o sistema visual específico.
-- Conteúdo de projetos centralizado em `src/data/projects.ts`.
-- Rotas de case estáticas em `src/app/work/[slug]`.
+- Conteúdo de oito projetos centralizado em `src/data/projects.ts`.
+- Rotas de estudo estáticas em `src/app/work/[slug]`.
 - Metadata, Open Graph, JSON-LD, sitemap e robots nativos do Next.js.
 
 ## Responsividade e acessibilidade
@@ -61,4 +61,4 @@ O portfólio apresenta Pedro Carvalho Callejas como alguém que constrói sistem
 
 ## Evolução dos agentes
 
-Os cases `email-agent` e `project-agent` já existem com status `Building`. Quando os MVPs forem validados, basta atualizar os dados, inserir mídia e substituir resultados provisórios por evidências reais.
+O `email-agent` documenta um MVP local validado com 103 testes, ainda sem integrações reais ou publicação. O `project-agent` permanece em desenvolvimento. Conforme cada etapa for validada, os dados podem receber mídia, demonstrações e resultados comprovados.

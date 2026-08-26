@@ -7,51 +7,54 @@ export const navigation = [
 export const capabilities = [
   {
     number: "01",
-    title: "Intelligent Systems",
+    title: "Sistemas inteligentes",
     description: "Aplicações completas que conectam interface, dados, regras de negócio, APIs e operação.",
-    nodes: ["UI", "API", "DATA"],
+    nodes: ["UI", "API", "DADOS"],
   },
   {
     number: "02",
-    title: "AI & Agents",
+    title: "IA e agentes",
     description: "Agentes que interpretam contexto, usam ferramentas e apoiam decisões com limites claros.",
-    nodes: ["LLM", "MCP", "TOOLS"],
+    nodes: ["LLM", "MCP", "AÇÕES"],
   },
   {
     number: "03",
-    title: "Automation",
+    title: "Automação",
     description: "Fluxos que reduzem tarefas repetitivas e fazem sistemas diferentes trabalharem juntos.",
-    nodes: ["EVENT", "FLOW", "ACTION"],
+    nodes: ["EVENTO", "FLUXO", "AÇÃO"],
   },
 ];
 
 export const stackGroups = [
-  { title: "Frontend", items: ["React", "Next.js", "React Native", "TypeScript", "Tailwind"] },
-  { title: "Backend", items: ["Node.js", "REST APIs", "Integrations"] },
-  { title: "Data", items: ["PostgreSQL", "Supabase", "Firebase", "MongoDB", "Prisma"] },
-  { title: "AI", items: ["LLMs", "Agents", "MCP", "Automation", "RAG"] },
-  { title: "Infra", items: ["Vercel", "Railway", "GitHub"] },
-  { title: "Mobile", items: ["React Native", "Expo", "Flutter"] },
-];
-
-export const experience = [
   {
-    period: "2025 — 2026",
-    company: "Secretaria Municipal de Educação de Várzea Grande",
-    role: "Assessor Técnico",
-    summary: "Sistemas internos, dashboards, organização de dados, suporte e melhoria de processos digitais.",
+    title: "Experiências digitais",
+    description: "Interfaces web e mobile rápidas, acessíveis e orientadas ao usuário.",
+    items: ["React", "Next.js", "React Native", "TypeScript", "Tailwind"],
   },
   {
-    period: "2024",
-    company: "UNITOP",
-    role: "Desenvolvedor Júnior",
-    summary: "Interfaces em React e relatórios com JasperReports integrados ao PostgreSQL.",
+    title: "Serviços e integrações",
+    description: "APIs e regras de negócio que conectam sistemas, dados e operações.",
+    items: ["Node.js", "APIs REST", "Integrações"],
   },
   {
-    period: "2022 — 2025",
-    company: "ESP-MT",
-    role: "Estágio / Estágio Pós",
-    summary: "Moodle, suporte técnico, relatórios personalizados e automação de processos internos.",
+    title: "Dados",
+    description: "Persistência, consultas e sincronização para produtos confiáveis.",
+    items: ["PostgreSQL", "Supabase", "Firebase", "MongoDB", "Prisma"],
+  },
+  {
+    title: "Inteligência",
+    description: "Modelos, agentes e contexto aplicados a fluxos com propósito claro.",
+    items: ["LLMs", "Agentes", "MCP", "Automação", "RAG"],
+  },
+  {
+    title: "Entrega",
+    description: "Versionamento, publicação e evolução contínua do software.",
+    items: ["Vercel", "Railway", "GitHub"],
+  },
+  {
+    title: "Aplicações mobile",
+    description: "Experiências pensadas para uso em movimento e diferentes dispositivos.",
+    items: ["React Native", "Expo", "Flutter"],
   },
 ];
 

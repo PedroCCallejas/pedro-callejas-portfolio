@@ -16,7 +16,7 @@ export default function Home() {
         <About />
         <Contact />
       </main>
-      <footer className="footer section-shell"><span>© {new Date().getFullYear()} Pedro Carvalho Callejas</span><span className="mono">Designed as a system.</span></footer>
+      <footer className="footer section-shell"><span>© {new Date().getFullYear()} Pedro Carvalho Callejas</span><span className="mono">Projetado como um sistema.</span></footer>
     </>
   );
 }

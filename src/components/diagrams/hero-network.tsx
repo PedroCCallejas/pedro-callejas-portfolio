@@ -4,10 +4,10 @@ import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/reac
 import type { PointerEvent } from "react";
 
 const nodes = [
-  { label: "AI Agents", x: 50, y: 16 },
+  { label: "Agentes de IA", x: 50, y: 16 },
   { label: "Full Stack", x: 18, y: 50 },
-  { label: "Automation", x: 82, y: 50 },
-  { label: "Systems", x: 50, y: 84 },
+  { label: "Automação", x: 82, y: 50 },
+  { label: "Sistemas", x: 50, y: 84 },
 ];
 
 export function HeroNetwork() {

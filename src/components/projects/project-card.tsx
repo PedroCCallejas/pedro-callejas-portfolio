@@ -19,7 +19,7 @@ export function ProjectCard({ project }: { project: Project }) {
           {project.stack.slice(0, 5).map((item) => <span key={item}>{item}</span>)}
         </div>
         <Link className="text-link focus-ring" href={`/work/${project.slug}`}>
-          Explorar case <ArrowUpRight size={16} />
+          Explorar projeto <ArrowUpRight size={16} />
         </Link>
       </div>
       <ProjectFlow steps={project.architecture} />

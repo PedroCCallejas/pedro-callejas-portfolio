@@ -42,19 +42,19 @@ export default async function CasePage({ params }: CasePageProps) {
       </nav>
 
       <header className="case-hero section-shell">
-        <Reveal><p className="eyebrow">Case study · {project.index}</p><h1>{project.title}</h1><p>{project.statement}</p></Reveal>
+        <Reveal><p className="eyebrow">Estudo de caso · {project.index}</p><h1>{project.title}</h1><p>{project.statement}</p></Reveal>
         <Reveal className="case-hero__flow" delay={0.08}><ProjectFlow steps={project.architecture} /></Reveal>
       </header>
 
       <div className="case-content section-shell">
-        <Reveal><CaseSection number="01" title="Overview"><p className="case-lead">{project.summary}</p><div className="project-tags">{project.stack.map((item) => <span key={item}>{item}</span>)}</div></CaseSection></Reveal>
-        <Reveal><CaseSection number="02" title="Problem"><p>{project.problem}</p></CaseSection></Reveal>
-        <Reveal><CaseSection number="03" title="Solution"><p>{project.solution}</p><ul className="case-checklist">{project.features.map((item) => <li key={item}><Check size={16} />{item}</li>)}</ul></CaseSection></Reveal>
-        <Reveal><CaseSection number="04" title="Architecture"><ProjectFlow steps={project.architecture} /></CaseSection></Reveal>
-        <Reveal><CaseSection number="05" title="Demo"><div className="demo-placeholder"><Clock3 /><div><strong>{project.status === "building" ? "Demonstração em preparação" : "Espaço preparado para vídeo e screenshots"}</strong><span>{project.status === "building" ? "Será adicionada após a validação do MVP." : "A documentação visual será adicionada na próxima evolução do case."}</span></div></div>{project.href && <a className="button button--ghost focus-ring" href={project.href} target="_blank" rel="noreferrer">Abrir projeto <ArrowUpRight size={16} /></a>}</CaseSection></Reveal>
-        <Reveal><CaseSection number="06" title="Challenges"><ul className="case-list">{project.challenges.map((item) => <li key={item}>{item}</li>)}</ul></CaseSection></Reveal>
-        <Reveal><CaseSection number="07" title="What I learned"><ul className="case-list">{project.learnings.map((item) => <li key={item}>{item}</li>)}</ul></CaseSection></Reveal>
-        <Reveal><CaseSection number="08" title="Results"><p>{project.results}</p></CaseSection></Reveal>
+        <Reveal><CaseSection number="01" title="Visão geral"><p className="case-lead">{project.summary}</p><div className="project-tags">{project.stack.map((item) => <span key={item}>{item}</span>)}</div></CaseSection></Reveal>
+        <Reveal><CaseSection number="02" title="Problema"><p>{project.problem}</p></CaseSection></Reveal>
+        <Reveal><CaseSection number="03" title="Solução"><p>{project.solution}</p><ul className="case-checklist">{project.features.map((item) => <li key={item}><Check size={16} />{item}</li>)}</ul></CaseSection></Reveal>
+        <Reveal><CaseSection number="04" title="Arquitetura"><ProjectFlow steps={project.architecture} /></CaseSection></Reveal>
+        <Reveal><CaseSection number="05" title="Demonstração"><div className="demo-placeholder"><Clock3 /><div><strong>{project.status === "building" ? "Demonstração em preparação" : "Espaço preparado para vídeo e imagens"}</strong><span>{project.status === "building" ? "Será adicionada após a validação do MVP." : "A documentação visual será adicionada na próxima evolução do projeto."}</span></div></div>{project.href && <a className="button button--ghost focus-ring" href={project.href} target="_blank" rel="noreferrer">Abrir projeto <ArrowUpRight size={16} /></a>}</CaseSection></Reveal>
+        <Reveal><CaseSection number="06" title="Desafios"><ul className="case-list">{project.challenges.map((item) => <li key={item}>{item}</li>)}</ul></CaseSection></Reveal>
+        <Reveal><CaseSection number="07" title="Aprendizados"><ul className="case-list">{project.learnings.map((item) => <li key={item}>{item}</li>)}</ul></CaseSection></Reveal>
+        <Reveal><CaseSection number="08" title="Resultados"><p>{project.results}</p></CaseSection></Reveal>
       </div>
 
       <footer className="case-footer section-shell"><p>Próximo sistema começa com uma boa pergunta.</p><Link className="contact-email focus-ring" href="/#contact">Vamos conversar <ArrowUpRight /></Link></footer>
