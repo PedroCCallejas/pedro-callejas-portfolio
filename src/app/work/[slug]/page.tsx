@@ -16,7 +16,17 @@ export async function generateMetadata({ params }: CasePageProps): Promise<Metad
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  return { title: project.title, description: project.summary, alternates: { canonical: `/work/${slug}` } };
+  return {
+    title: project.title,
+    description: project.summary,
+    alternates: { canonical: `/work/${slug}` },
+    openGraph: {
+      title: `${project.title} — Pedro Callejas`,
+      description: project.summary,
+      url: `/work/${slug}`,
+      type: "website",
+    },
+  };
 }
 
 export default async function CasePage({ params }: CasePageProps) {
