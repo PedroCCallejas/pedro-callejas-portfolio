@@ -1,11 +1,13 @@
-import { ArrowDown, ArrowUpRight, BriefcaseBusiness, Code2, Mail } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Bot, BriefcaseBusiness, Clapperboard, Code2, Gamepad2, Mail } from "lucide-react";
 import { Reveal } from "@/components/animations/reveal";
 import { CapabilityDiagram } from "@/components/diagrams/capability-diagram";
 import { HeroNetwork } from "@/components/diagrams/hero-network";
 import { HowIBuild } from "@/components/diagrams/how-i-build";
 import { ProjectCard } from "@/components/projects/project-card";
-import { capabilities, socialLinks, stackGroups } from "@/data/site";
+import { capabilities, learningTracks, socialLinks, stackGroups } from "@/data/site";
 import { projects } from "@/data/projects";
+
+const learningIcons = [Gamepad2, Bot, Clapperboard];
 
 export function Hero() {
   return (
@@ -113,6 +115,41 @@ export function Stack() {
   );
 }
 
+export function Studies() {
+  return (
+    <section className="section section-shell" id="studies">
+      <Reveal className="section-heading section-heading--split">
+        <div>
+          <p className="eyebrow">Estudos e interesses</p>
+          <h2>Curiosidade também faz parte do meu trabalho.</h2>
+        </div>
+        <p>Alguns estudos nascem de necessidades profissionais. Outros começam como hobby — e acabam ampliando a forma como penso produtos e sistemas.</p>
+      </Reveal>
+
+      <div className="learning-grid">
+        {learningTracks.map((track, index) => {
+          const Icon = learningIcons[index];
+
+          return (
+            <Reveal key={track.title} delay={index * 0.06}>
+              <article className="learning-card">
+                <div className="learning-card__top">
+                  <span className="mono">{track.number}</span>
+                  <Icon aria-hidden="true" size={24} strokeWidth={1.5} />
+                </div>
+                <span className="learning-card__kicker mono">{track.kicker}</span>
+                <h3>{track.title}</h3>
+                <p>{track.description}</p>
+                <ul>{track.items.map((item) => <li key={item}>{item}</li>)}</ul>
+              </article>
+            </Reveal>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 export function About() {
   return (
     <section className="section section-shell" id="about">
@@ -122,7 +159,8 @@ export function About() {
           <h2>Engenharia com visão de produto.</h2>
           <p className="about-lead">Sou engenheiro da computação, pós-graduado em Full Stack Development, com experiência prática em interfaces, painéis, dados, plataformas educacionais e suporte tecnológico.</p>
           <p>Hoje concentro meu trabalho em desenvolvimento Full Stack, IA e automação — buscando soluções úteis, compreensíveis e sustentáveis.</p>
-          <p>Também gosto de jogos e uso projetos autorais como o Calherath TD para explorar sistemas, mecânicas e programação em C#.</p>
+          <p>Fora das entregas profissionais, jogos são parte importante do meu repertório. Gosto de observar como regras, progressão e feedback criam experiências — e levo esse olhar para projetos como o Calherath TD.</p>
+          <p>Mantenho também uma rotina de estudos sobre IA aplicada ao desenvolvimento, usando Claude e Codex e construindo experimentos próprios com agentes, ferramentas e automação.</p>
         </Reveal>
         <Reveal className="education-panel" delay={0.08}>
           <span className="eyebrow">Formação</span>

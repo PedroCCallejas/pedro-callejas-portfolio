@@ -1,6 +1,7 @@
 export const navigation = [
   { label: "Trabalho", href: "#work" },
   { label: "Arquitetura", href: "#architecture" },
+  { label: "Estudos", href: "#studies" },
   { label: "Sobre", href: "#about" },
 ];
 
@@ -55,6 +56,33 @@ export const stackGroups = [
     title: "Aplicações mobile",
     description: "Experiências pensadas para uso em movimento e diferentes dispositivos.",
     items: ["React Native", "Expo", "Flutter"],
+  },
+];
+
+export const learningTracks = [
+  {
+    number: "01",
+    kicker: "Hobby e criação",
+    title: "Jogos e sistemas interativos",
+    description:
+      "Jogos são um dos meus principais hobbies e também um espaço para estudar regras, equilíbrio, progressão e feedback. Calherath TD e Placar Truco transformam esse interesse em experimentos práticos.",
+    items: ["Unity", "C#", "Design de jogos", "Expo"],
+  },
+  {
+    number: "02",
+    kicker: "Estudo contínuo",
+    title: "IA aplicada ao desenvolvimento",
+    description:
+      "Estudo agentes, chamadas de ferramentas, memória, provedores, MCP e construção de prompts. Uso Claude e Codex para pesquisar, planejar, revisar e desenvolver software com supervisão.",
+    items: ["Claude", "Codex", "Agentes", "Chamadas de ferramentas", "MCP"],
+  },
+  {
+    number: "03",
+    kicker: "Automação criativa",
+    title: "n8n, produção e vídeo",
+    description:
+      "No Ponto Cego do Universo, exploro n8n para orquestrar pesquisa, revisão e produção. Também venho aprendendo edição de vídeo, composição com FFmpeg e organização de conteúdo audiovisual.",
+    items: ["n8n", "TypeScript", "FFmpeg", "Edição de vídeo"],
   },
 ];
 

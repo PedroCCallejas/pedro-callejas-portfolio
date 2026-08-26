@@ -217,6 +217,34 @@ export const projects: Project[] = [
     learnings: ["Arquitetura de jogabilidade em C#", "Sistemas orientados a dados", "Prototipação de design de jogos"],
     results: "Protótipo em desenvolvimento com sistemas de grid, combate, monstros, torres e economia, além de um site próprio em Next.js e GSAP.",
   },
+  {
+    slug: "ponto-cego-do-universo",
+    index: "09",
+    title: "Ponto Cego do Universo",
+    shortTitle: "Ponto Cego do Universo",
+    statement: "Uma linha de produção audiovisual com automação e decisão humana.",
+    summary:
+      "Pipeline editorial para pesquisar, revisar, organizar e renderizar vídeos, usando n8n na orquestração e mantendo aprovação humana antes de qualquer publicação.",
+    status: "building",
+    statusLabel: "Pipeline em evolução",
+    year: "2026 · Projeto autoral",
+    stack: ["n8n", "TypeScript", "FFmpeg", "Electron", "Docker", "Piper"],
+    features: [
+      "Pesquisa e verificação por fontes",
+      "Manifestos e decisões editoriais rastreáveis",
+      "Voz local, cenas e renderização vertical",
+      "Interface local para aprovações e entregas",
+    ],
+    architecture: ["Pesquisa", "n8n", "Revisão humana", "Renderização", "Entrega"],
+    problem:
+      "Produzir conteúdo audiovisual recorrente exige coordenar pesquisa, fatos, roteiro, voz, mídias, direitos de uso, edição e versões sem perder a origem de cada decisão.",
+    solution:
+      "O projeto separa orquestração, edição e aprovação: o n8n organiza os fluxos, um renderizador em TypeScript e FFmpeg compõe as saídas e manifestos registram o que foi revisado e selecionado.",
+    challenges: ["Rastreabilidade editorial", "Sincronização entre voz, cenas e legendas", "Controle de direitos e aprovações"],
+    learnings: ["Automação com decisão humana", "Fluxos observáveis", "Pipeline audiovisual estruturado"],
+    results:
+      "Pesquisa, voz local, renderização, validações e organização editorial possuem implementações locais. Upload e publicação permanecem manuais e bloqueados por padrão.",
+  },
 ];
 
 export function getProject(slug: string) {

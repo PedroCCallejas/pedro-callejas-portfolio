@@ -43,9 +43,17 @@ docs/           decisões de arquitetura visual e técnica
 
 Os projetos são definidos em `src/data/projects.ts`. Cada item gera uma página em `/work/[slug]` com visão geral, problema, solução, arquitetura, demonstração, desafios, aprendizados e resultados.
 
-A seleção atual reúne oito projetos: Agente de E-mail com IA, Agente de Controle de Projetos, Professô FC, It’s Me Pratas, Sistema Veterinário, Mapa Espírita, Saldo Financeiro e Calherath TD.
+A seleção atual reúne nove projetos: Agente de E-mail com IA, Agente de Controle de Projetos, Professô FC, It’s Me Pratas, Sistema Veterinário, Mapa Espírita, Saldo Financeiro, Calherath TD e Ponto Cego do Universo.
 
 O agente de e-mail possui MVP validado localmente com 103 testes. O agente de controle de projetos e o Calherath TD permanecem marcados como trabalhos em desenvolvimento.
+
+## Estudos e interesses
+
+A seção `#studies` apresenta três frentes que complementam os projetos profissionais:
+
+- jogos e sistemas interativos;
+- IA aplicada ao desenvolvimento, incluindo uso de Claude e Codex;
+- automação audiovisual com n8n, TypeScript, FFmpeg e estudos de edição de vídeo.
 
 ## Animações
 
@@ -64,7 +72,7 @@ O projeto é compatível com deploy direto na Vercel. Com a integração Git ati
 
 ## Roadmap
 
-- adicionar vídeos e imagens reais aos estudos;
+- gravar, editar e adicionar vídeos reais aos estudos de projeto;
 - integrar e publicar o Agente de E-mail com IA;
 - concluir e validar o Agente de Controle de Projetos;
 - substituir conteúdo provisório por resultados comprovados;

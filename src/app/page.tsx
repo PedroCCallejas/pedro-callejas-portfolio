@@ -1,6 +1,6 @@
 import { IntroLoader } from "@/components/animations/intro-loader";
 import { Header } from "@/components/layout/header";
-import { About, Architecture, Contact, FeaturedWork, Hero, Stack, WhatIBuild } from "@/components/sections/home-sections";
+import { About, Architecture, Contact, FeaturedWork, Hero, Stack, Studies, WhatIBuild } from "@/components/sections/home-sections";
 
 export default function Home() {
   return (
@@ -13,6 +13,7 @@ export default function Home() {
         <FeaturedWork />
         <Architecture />
         <Stack />
+        <Studies />
         <About />
         <Contact />
       </main>

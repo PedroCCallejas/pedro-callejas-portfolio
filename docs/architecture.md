@@ -26,7 +26,7 @@ O portfólio apresenta Pedro Carvalho Callejas como alguém que constrói sistem
 - Cards editoriais de capacidade.
 - Projetos orientados a dados e páginas de estudo por slug.
 - Diagrama interativo da arquitetura.
-- Mapa de competências em camadas, formação e contato.
+- Mapa de competências em camadas, estudos e interesses, formação e contato.
 
 ### Não incluir nesta fase
 
@@ -48,7 +48,7 @@ O portfólio apresenta Pedro Carvalho Callejas como alguém que constrói sistem
 - Server Components para páginas e conteúdo.
 - Client Components somente para navegação, reveals e diagramas interativos.
 - Tailwind CSS para fundação utilitária e CSS global para o sistema visual específico.
-- Conteúdo de oito projetos centralizado em `src/data/projects.ts`.
+- Conteúdo de nove projetos centralizado em `src/data/projects.ts`.
 - Rotas de estudo estáticas em `src/app/work/[slug]`.
 - Metadata, Open Graph, JSON-LD, sitemap e robots nativos do Next.js.
 
@@ -62,3 +62,7 @@ O portfólio apresenta Pedro Carvalho Callejas como alguém que constrói sistem
 ## Evolução dos agentes
 
 O `email-agent` documenta um MVP local validado com 103 testes, ainda sem integrações reais ou publicação. O `project-agent` permanece em desenvolvimento. Conforme cada etapa for validada, os dados podem receber mídia, demonstrações e resultados comprovados.
+
+## Estudos e narrativa pessoal
+
+A seção de estudos conecta interesses pessoais e experimentação técnica sem competir com os projetos principais. Jogos aparecem como repertório de sistemas e interação; Claude, Codex e agentes aparecem como estudo aplicado; n8n, FFmpeg e edição de vídeo aparecem vinculados ao Ponto Cego do Universo. Vídeos reais dos projetos ficam reservados para a última fase de conteúdo.
