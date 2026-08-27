@@ -265,4 +265,10 @@ button { font: inherit; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   .intro-loader { display: none; }
+  .projects-stack .project-flow__edge b,
+  .projects-stack .project-flow__node rect,
+  .projects-stack .project-flow__connector b {
+    animation-duration: 7.7s !important;
+    animation-iteration-count: infinite !important;
+  }
 }

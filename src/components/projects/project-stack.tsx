@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useInView, useMotionValueEvent, useScroll, useTransform } from "motion/react";
 import { useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import type { Project } from "@/types/project";
 import { ProjectCard } from "./project-card";
@@ -114,10 +114,9 @@ function AnimatedProjectStack({ projects }: ProjectStackProps) {
 }
 
 export function ProjectStack({ projects }: ProjectStackProps) {
-  const reduceMotion = useReducedMotion();
   const isMobile = useIsMobile();
 
-  if (reduceMotion || isMobile) {
+  if (isMobile) {
     return (
       <div className="projects-list">
         {projects.map((project) => <ProjectCard key={project.slug} project={project} />)}
