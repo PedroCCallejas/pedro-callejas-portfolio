@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Project } from "@/types/project";
 import { ProjectFlow } from "./project-flow";
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({ project, flowActive = true }: { project: Project; flowActive?: boolean }) {
   return (
     <article className="project-card">
       <div className="project-card__number" aria-hidden="true">{project.index}</div>
@@ -22,7 +22,7 @@ export function ProjectCard({ project }: { project: Project }) {
           Explorar projeto <ArrowUpRight size={16} />
         </Link>
       </div>
-      <ProjectFlow steps={project.architecture} />
+      <ProjectFlow steps={project.architecture} active={flowActive} />
     </article>
   );
 }
