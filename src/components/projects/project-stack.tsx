@@ -12,8 +12,8 @@ type ProjectStackProps = {
 
 type NavigationMode = "scroll" | "manual";
 
-const READING_PHASE = 0.62;
-const ACTIVE_SWITCH_PHASE = 0.8;
+const READING_PHASE = 0.56;
+const FLIP_MIDPOINT = 0.78;
 
 function subscribeToMobileQuery(callback: () => void) {
   const query = window.matchMedia("(max-width: 768px)");
@@ -32,37 +32,38 @@ function useIsMobile() {
 
 function cardMotion(value: number, index: number, total: number) {
   const distance = value * (total - 1) - index;
-  const transitionRange = 1 - READING_PHASE;
 
   if (distance >= 0 && distance <= READING_PHASE) {
     return { opacity: 1, rotateX: 0, scale: 1, z: 0 };
   }
 
-  if (distance > READING_PHASE && distance <= 1) {
-    const amount = (distance - READING_PHASE) / transitionRange;
+  if (distance > READING_PHASE && distance < FLIP_MIDPOINT) {
+    const amount = (distance - READING_PHASE) / (FLIP_MIDPOINT - READING_PHASE);
     return {
-      opacity: 1 - amount,
-      rotateX: amount * -76,
-      scale: 1 - amount * 0.035,
-      z: amount * -190,
+      opacity: 1,
+      rotateX: amount * -90,
+      scale: 1 - amount * 0.04,
+      z: amount * -170,
     };
   }
 
-  if (distance >= -transitionRange && distance < 0) {
-    const amount = (distance + transitionRange) / transitionRange;
+  const incomingPhase = distance + 1;
+
+  if (distance < 0 && incomingPhase >= FLIP_MIDPOINT && incomingPhase <= 1) {
+    const amount = (incomingPhase - FLIP_MIDPOINT) / (1 - FLIP_MIDPOINT);
     return {
-      opacity: amount,
-      rotateX: (1 - amount) * 76,
-      scale: 0.965 + amount * 0.035,
-      z: (1 - amount) * -190,
+      opacity: 1,
+      rotateX: (1 - amount) * 90,
+      scale: 0.96 + amount * 0.04,
+      z: (1 - amount) * -170,
     };
   }
 
   return {
     opacity: 0,
-    rotateX: distance > 0 ? -76 : 76,
-    scale: 0.965,
-    z: -190,
+    rotateX: distance > 0 ? -90 : 90,
+    scale: 0.96,
+    z: -170,
   };
 }
 
@@ -127,6 +128,8 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
   const [mode, setMode] = useState<NavigationMode>("scroll");
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [holdManualCard, setHoldManualCard] = useState(false);
+  const [isModeTransitioning, setIsModeTransitioning] = useState(false);
   const isInView = useInView(viewportRef, { amount: 0.2 });
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -139,22 +142,29 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
     const position = value * (projects.length - 1);
     const nextIndex = Math.min(
       projects.length - 1,
-      Math.floor(position + (1 - ACTIVE_SWITCH_PHASE)),
+      Math.floor(position + (1 - FLIP_MIDPOINT)),
     );
     setActiveIndex((current) => current === nextIndex ? current : nextIndex);
   });
 
   function selectMode(nextMode: NavigationMode) {
-    if (nextMode === mode || !containerRef.current) return;
+    if (nextMode === mode || !containerRef.current || isModeTransitioning) return;
 
     const containerTop = containerRef.current.getBoundingClientRect().top + window.scrollY;
     modeRef.current = nextMode;
+    setIsModeTransitioning(true);
+
+    if (nextMode === "scroll") {
+      setHoldManualCard(true);
+    }
+
     setMode(nextMode);
 
     if (nextMode === "manual") {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           window.scrollTo({ top: Math.max(0, containerTop - 88), behavior: "auto" });
+          requestAnimationFrame(() => setIsModeTransitioning(false));
         });
       });
       return;
@@ -165,7 +175,12 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
         if (!containerRef.current) return;
         const scrollRange = Math.max(0, containerRef.current.offsetHeight - window.innerHeight);
         const progress = projects.length > 1 ? activeIndex / (projects.length - 1) : 0;
+        scrollYProgress.set(progress);
         window.scrollTo({ top: containerTop + scrollRange * progress, behavior: "auto" });
+        requestAnimationFrame(() => {
+          setHoldManualCard(false);
+          setIsModeTransitioning(false);
+        });
       });
     });
   }
@@ -178,6 +193,7 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
   }
 
   const manualMode = mode === "manual";
+  const showManualCard = manualMode || holdManualCard;
   const activeProject = projects[activeIndex];
 
   return (
@@ -198,7 +214,9 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
               className="projects-mode__switch focus-ring"
               role="switch"
               aria-checked={manualMode}
+              aria-busy={isModeTransitioning}
               aria-label={manualMode ? "Ativar navegação por scroll" : "Ativar navegação manual"}
+              disabled={isModeTransitioning}
               onClick={() => selectMode(manualMode ? "scroll" : "manual")}
             >
               <i aria-hidden="true" />
@@ -238,7 +256,7 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
           </AnimatePresence>
         </div>
 
-        {manualMode ? (
+        {showManualCard ? (
           <AnimatePresence initial={false} custom={direction} mode="popLayout">
             <motion.div
               key={activeProject.slug}
@@ -254,7 +272,7 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
               aria-label={`${activeIndex + 1} de ${projects.length}: ${activeProject.title}`}
               data-flow-active={isInView}
             >
-              <ProjectCard project={activeProject} flowActive={isInView} />
+              <ProjectCard project={activeProject} flowActive={manualMode || isInView} />
             </motion.div>
           </AnimatePresence>
         ) : (

@@ -1,16 +1,21 @@
 "use client";
 
-import { motion, type Transition } from "motion/react";
+import type { CSSProperties } from "react";
 
 type FlowSchedule = {
   delay: number;
   duration: number;
 };
 
+type FlowStyle = CSSProperties & {
+  "--flow-cycle": string;
+  "--flow-delay": string;
+};
+
 const EDGE_DURATION = 0.32;
 const NODE_DURATION = 0.8;
 const CONNECTOR_DURATION = 0.14;
-const CYCLE_PAUSE = 0.8;
+const CYCLE_PAUSE = 0.35;
 const HANDOFF_OVERLAP = 0.018;
 
 function createSchedule(stepCount: number) {
@@ -37,61 +42,29 @@ function createSchedule(stepCount: number) {
   return { start, nodes, connectors, end, cycle };
 }
 
-function traceTransition(schedule: FlowSchedule, cycle: number, active: boolean): Transition {
-  if (!active) return { duration: 0 };
-
-  const start = schedule.delay / cycle;
-  const end = (schedule.delay + schedule.duration) / cycle;
-  const fade = 0.006 / cycle;
-
+function flowStyle(schedule: FlowSchedule, cycle: number): FlowStyle {
   return {
-    duration: cycle,
-    ease: "linear",
-    repeat: Infinity,
-    times: [0, start, start + fade, end - fade, end, 1],
+    "--flow-cycle": `${cycle}s`,
+    "--flow-delay": `${schedule.delay}s`,
   };
 }
 
-function FlowLine({ schedule, cycle, active }: { schedule: FlowSchedule; cycle: number; active: boolean }) {
-  return (
-    <motion.b
-      initial={false}
-      animate={active
-        ? {
-            left: ["-16px", "-16px", "-12px", "calc(100% - 4px)", "100%", "100%"],
-            opacity: [0, 0, 1, 1, 0, 0],
-          }
-        : { left: "-16px", opacity: 0 }}
-      transition={traceTransition(schedule, cycle, active)}
-    />
-  );
+function FlowLine({
+  schedule,
+  cycle,
+  kind,
+}: {
+  schedule: FlowSchedule;
+  cycle: number;
+  kind: "edge" | "connector";
+}) {
+  return <b className={`project-flow__pulse project-flow__pulse--${kind}`} style={flowStyle(schedule, cycle)} />;
 }
 
-function FlowContour({ schedule, cycle, active }: { schedule: FlowSchedule; cycle: number; active: boolean }) {
-  const animation = active
-    ? {
-        strokeDashoffset: [1, 1, 0.96, 0.04, 0, 0],
-        opacity: [0, 0, 1, 1, 0, 0],
-      }
-    : { strokeDashoffset: 1, opacity: 0 };
-  const transition = traceTransition(schedule, cycle, active);
-
+function FlowContour({ schedule, cycle }: { schedule: FlowSchedule; cycle: number }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 100 50" preserveAspectRatio="none">
-      <motion.path
-        d="M 1 25 V 1 H 99 V 25"
-        pathLength="1"
-        initial={false}
-        animate={animation}
-        transition={transition}
-      />
-      <motion.path
-        d="M 1 25 V 49 H 99 V 25"
-        pathLength="1"
-        initial={false}
-        animate={animation}
-        transition={transition}
-      />
+      <path d="M 1 25 V 1 H 99 V 49 H 1 Z" pathLength="1" style={flowStyle(schedule, cycle)} />
     </svg>
   );
 }
@@ -100,25 +73,28 @@ export function ProjectFlow({ steps, active = true }: { steps: string[]; active?
   const schedule = createSchedule(steps.length);
 
   return (
-    <div className="project-flow" aria-label={`Fluxo: ${steps.join(", ")}`}>
+    <div
+      className={`project-flow${active ? " project-flow--active" : ""}`}
+      aria-label={`Fluxo: ${steps.join(", ")}`}
+    >
       <i className="project-flow__edge project-flow__edge--start" aria-hidden="true">
-        <FlowLine schedule={schedule.start} cycle={schedule.cycle} active={active} />
+        <FlowLine schedule={schedule.start} cycle={schedule.cycle} kind="edge" />
       </i>
       {steps.map((step, index) => (
         <div className="project-flow__step" key={step}>
           <span className="project-flow__node">
             {step}
-            <FlowContour schedule={schedule.nodes[index]} cycle={schedule.cycle} active={active} />
+            <FlowContour schedule={schedule.nodes[index]} cycle={schedule.cycle} />
           </span>
           {index < steps.length - 1 && (
             <i className="project-flow__connector" aria-hidden="true">
-              <FlowLine schedule={schedule.connectors[index]} cycle={schedule.cycle} active={active} />
+              <FlowLine schedule={schedule.connectors[index]} cycle={schedule.cycle} kind="connector" />
             </i>
           )}
         </div>
       ))}
       <i className="project-flow__edge project-flow__edge--end" aria-hidden="true">
-        <FlowLine schedule={schedule.end} cycle={schedule.cycle} active={active} />
+        <FlowLine schedule={schedule.end} cycle={schedule.cycle} kind="edge" />
       </i>
     </div>
   );
