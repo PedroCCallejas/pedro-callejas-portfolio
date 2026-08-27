@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useInView, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import type { Project } from "@/types/project";
 import { ProjectCard } from "./project-card";
@@ -30,44 +30,40 @@ function StackCard({
   total,
   progress,
   isActive,
+  flowActive,
 }: {
   project: Project;
   index: number;
   total: number;
   progress: ReturnType<typeof useScroll>["scrollYProgress"];
   isActive: boolean;
+  flowActive: boolean;
 }) {
-  const center = total === 1 ? 0 : index / (total - 1);
-  const step = total === 1 ? 1 : 1 / (total - 1);
-
-  const getPhase = (value: number) => {
-    if (total === 1) return 0;
-    if (index === 0 && value <= center) return 0;
-    if (index === total - 1 && value >= center) return 0;
-    return (value - center) / step;
-  };
-
   const opacity = useTransform(progress, (value) => {
-    const phase = getPhase(value);
-    return Math.max(0, 1 - Math.abs(phase));
+    const position = value * (total - 1);
+    return Math.round(position) === index ? 1 : 0;
   });
-  const y = useTransform(progress, (value) => {
-    const phase = Math.max(-1, Math.min(1, getPhase(value)));
-    return phase < 0 ? Math.abs(phase) * 105 : phase * -92;
+  const rotateX = useTransform(progress, (value) => {
+    const distance = value * (total - 1) - index;
+    const turn = Math.min(1, Math.abs(distance) * 2);
+    return distance >= 0 ? turn * -90 : turn * 90;
   });
   const scale = useTransform(progress, (value) => {
-    const phase = Math.max(-1, Math.min(1, getPhase(value)));
-    return phase < 0 ? 1 - Math.abs(phase) * 0.11 : 1 - phase * 0.19;
+    const distance = Math.min(0.5, Math.abs(value * (total - 1) - index));
+    return 1 - distance * 0.1;
   });
-  const rotateX = useTransform(progress, (value) => Math.max(-1, Math.min(1, getPhase(value))) * -13);
-  const z = useTransform(progress, (value) => -Math.min(1, Math.abs(getPhase(value))) * 270);
+  const z = useTransform(progress, (value) => {
+    const distance = Math.min(0.5, Math.abs(value * (total - 1) - index));
+    return distance * -440;
+  });
 
   return (
     <motion.div
       className="projects-stack__card"
-      style={{ opacity, y, scale, rotateX, z, pointerEvents: isActive ? "auto" : "none" }}
+      style={{ opacity, scale, rotateX, z, pointerEvents: isActive ? "auto" : "none" }}
       aria-hidden={!isActive}
       inert={!isActive}
+      data-flow-active={flowActive}
     >
       <ProjectCard project={project} />
     </motion.div>
@@ -76,7 +72,9 @@ function StackCard({
 
 function AnimatedProjectStack({ projects }: ProjectStackProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const isInView = useInView(viewportRef, { amount: 0.2 });
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
@@ -93,7 +91,7 @@ function AnimatedProjectStack({ projects }: ProjectStackProps) {
       className="projects-stack"
       style={{ "--project-count": projects.length } as CSSProperties}
     >
-      <div className="projects-stack__viewport">
+      <div ref={viewportRef} className="projects-stack__viewport">
         {projects.map((project, index) => (
           <StackCard
             key={project.slug}
@@ -102,6 +100,7 @@ function AnimatedProjectStack({ projects }: ProjectStackProps) {
             total={projects.length}
             progress={scrollYProgress}
             isActive={activeIndex === index}
+            flowActive={isInView && activeIndex === index}
           />
         ))}
         <div className="projects-stack__counter mono" aria-live="polite">

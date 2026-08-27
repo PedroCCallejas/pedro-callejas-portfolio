@@ -94,9 +94,9 @@ button { font: inherit; }
 .diagram-nodes span { min-width: 70px; padding: 6px 8px; border: 1px solid var(--line); color: #adb4b8; font: 9px var(--font-geist-mono), monospace; letter-spacing: .1em; }
 
 .projects-list { display: grid; gap: 18px; }
-.projects-stack { height: calc(var(--project-count) * 68svh); position: relative; }
-.projects-stack__viewport { height: calc(100svh - 104px); position: sticky; top: 88px; display: grid; align-items: center; perspective: 1600px; perspective-origin: 50% 42%; }
-.projects-stack__card { grid-area: 1 / 1; transform-style: preserve-3d; transform-origin: 50% 38%; will-change: transform, opacity; }
+.projects-stack { height: calc(var(--project-count) * 82svh); position: relative; }
+.projects-stack__viewport { height: calc(100svh - 104px); position: sticky; top: 88px; display: grid; align-items: center; perspective: 1100px; perspective-origin: 50% 50%; }
+.projects-stack__card { grid-area: 1 / 1; transform-style: preserve-3d; transform-origin: 50% 50%; backface-visibility: hidden; will-change: transform; }
 .projects-stack__card .project-card { min-height: min(590px, calc(100svh - 128px)); box-shadow: 0 34px 80px rgba(0,0,0,.42), 0 0 0 1px rgba(110,231,242,.025); }
 .projects-stack__card:nth-child(even) .project-card { background: radial-gradient(circle at 80% 20%, rgba(152,119,255,.065), transparent 34%), linear-gradient(145deg, var(--surface-2), #090c0e 72%); }
 .projects-stack__counter { width: 100%; position: absolute; z-index: 5; right: 18px; bottom: 15px; display: flex; justify-content: flex-end; align-items: center; gap: 10px; color: #707a7f; font-size: 9px; pointer-events: none; }
@@ -120,12 +120,16 @@ button { font: inherit; }
 .project-flow__edge { width: clamp(28px, 4vw, 62px); height: 1px; flex: 0 0 auto; position: relative; overflow: visible; }
 .project-flow__edge::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(110,231,242,.9)); box-shadow: 0 0 12px rgba(110,231,242,.48); }
 .project-flow__edge--end::before { background: linear-gradient(90deg, rgba(110,231,242,.9), transparent); }
-.project-flow__edge b { width: 14px; height: 1px; position: absolute; top: 0; background: #d7fbff; box-shadow: 0 0 10px var(--cyan), 0 0 20px rgba(110,231,242,.75); animation: data-flow 2s linear infinite; }
-.project-flow__edge--start b { animation-direction: reverse; }
+.project-flow__edge b { width: 16px; height: 1px; position: absolute; top: 0; left: -16px; opacity: 0; background: #e8fdff; box-shadow: 0 0 10px var(--cyan), 0 0 22px var(--cyan); animation: flow-trace-line 7.7s linear infinite; animation-delay: calc(var(--flow-order) * .7s); }
 .project-flow__step { display: flex; align-items: center; color: #aeb5b8; font: 9px var(--font-geist-mono), monospace; letter-spacing: .08em; text-transform: uppercase; }
-.project-flow__step > span { min-width: 74px; min-height: 42px; padding: 8px; display: grid; place-items: center; text-align: center; border: 1px solid rgba(110,231,242,.18); background: rgba(7,9,11,.72); box-shadow: inset 0 0 18px rgba(110,231,242,.02); }
-.project-flow__step i { width: 26px; height: 1px; position: relative; background: rgba(110,231,242,.52); box-shadow: 0 0 8px rgba(110,231,242,.24); overflow: hidden; }
-.project-flow__step i b { position: absolute; width: 10px; height: 1px; background: #d7fbff; box-shadow: 0 0 9px var(--cyan); animation: data-flow 2s linear infinite; }
+.project-flow__node { min-width: 74px; min-height: 42px; padding: 8px; position: relative; display: grid; place-items: center; text-align: center; border: 1px solid rgba(110,231,242,.18); background: rgba(7,9,11,.72); box-shadow: inset 0 0 18px rgba(110,231,242,.02); }
+.project-flow__node svg { position: absolute; inset: -1px; width: calc(100% + 2px); height: calc(100% + 2px); overflow: visible; pointer-events: none; }
+.project-flow__node rect { fill: none; stroke: #dffcff; stroke-width: 1.5; stroke-dasharray: .16 .84; stroke-dashoffset: 1; opacity: 0; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 3px var(--cyan)) drop-shadow(0 0 7px rgba(110,231,242,.8)); animation: flow-trace-box 7.7s linear infinite; animation-delay: calc(var(--flow-order) * .7s); }
+.project-flow__connector { width: 26px; height: 1px; position: relative; background: rgba(110,231,242,.44); box-shadow: 0 0 8px rgba(110,231,242,.2); overflow: visible; }
+.project-flow__connector b { width: 12px; height: 1px; position: absolute; top: 0; left: -12px; opacity: 0; background: #e8fdff; box-shadow: 0 0 9px var(--cyan), 0 0 18px var(--cyan); animation: flow-trace-line 7.7s linear infinite; animation-delay: calc(var(--flow-order) * .7s); }
+.projects-stack__card[data-flow-active="false"] .project-flow__edge b,
+.projects-stack__card[data-flow-active="false"] .project-flow__node rect,
+.projects-stack__card[data-flow-active="false"] .project-flow__connector b { animation-name: none; }
 
 .architecture-board { display: grid; grid-template-columns: 1fr 330px; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; background: var(--surface); }
 .architecture-flow { min-height: 620px; padding: 58px; display: flex; flex-direction: column; justify-content: center; align-items: center; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 42px 42px; }
@@ -219,7 +223,8 @@ button { font: inherit; }
 @keyframes pulse { 50% { opacity: .4; transform: scale(.75); } }
 @keyframes rotate { to { transform: rotate(360deg); } }
 @keyframes node-float { 50% { transform: translateY(-1.4px); } }
-@keyframes data-flow { from { left: -8px; } to { left: 100%; } }
+@keyframes flow-trace-line { 0% { left: -16px; opacity: 0; } 1% { opacity: 1; } 8.8% { left: 100%; opacity: 1; } 9.1%, 100% { left: 100%; opacity: 0; } }
+@keyframes flow-trace-box { 0% { stroke-dashoffset: 1; opacity: 0; } 1% { opacity: 1; } 8.8% { stroke-dashoffset: 0; opacity: 1; } 9.1%, 100% { stroke-dashoffset: 0; opacity: 0; } }
 
 @media (max-width: 1024px) {
   .hero { grid-template-columns: 1fr .75fr; }.hero-network { width: 100%; margin-right: 0; }
@@ -236,7 +241,7 @@ button { font: inherit; }
   .hero { min-height: auto; padding-top: 142px; padding-bottom: 100px; grid-template-columns: 1fr; }.hero h1 { font-size: clamp(3.5rem, 16vw, 6.4rem); }.hero-network { width: 100%; max-width: 540px; margin: 24px auto 0; justify-self: center; }.hero-grid { background-size: 48px 48px; }
   .section-heading--split { grid-template-columns: 1fr; gap: 12px; }.section-heading h2, .about-grid h2 { font-size: clamp(2.8rem, 12vw, 5rem); }
   .capabilities-grid { grid-template-columns: 1fr; }.capability-card { min-height: 340px; }.capability-diagram { height: 120px; }
-  .project-card { min-height: 700px; padding: 30px; border-radius: 18px; }.project-card__number { font-size: 10rem; }.project-flow { overflow-x: auto; padding-bottom: 8px; justify-content: flex-start; }.project-flow__step { flex: 0 0 auto; }.project-flow__edge { width: 28px; }
+  .project-card { min-height: 700px; padding: 30px; border-radius: 18px; }.project-card__number { font-size: 10rem; }.project-flow { overflow-x: auto; padding-bottom: 8px; justify-content: flex-start; }.project-flow__step { flex: 0 0 auto; }.project-flow__edge { width: 28px; }.projects-list .project-flow__edge b, .projects-list .project-flow__node rect, .projects-list .project-flow__connector b { animation: none; opacity: 0; }
   .architecture-board { grid-template-columns: 1fr; }.architecture-flow { min-height: 520px; padding: 24px; }.architecture-grid { grid-template-columns: 1fr 1fr; }.architecture-node:nth-child(4), .architecture-node:nth-child(5) { grid-column: auto; }.architecture-detail { border-left: 0; border-top: 1px solid var(--line); }
   .stack-row { padding: 26px 18px; grid-template-columns: 40px 1fr; gap: 14px 18px; }.stack-row ul { grid-column: 2; }.stack-row__heading p { max-width: 520px; }
   .learning-grid { grid-template-columns: 1fr; }.learning-card { min-height: 390px; }.learning-card__kicker { margin-top: 42px; }
