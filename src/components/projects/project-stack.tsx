@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useInView, useMotionValueEvent, useScroll, useTransform } from "motion/react";
+import { AnimatePresence, motion, useInView, useMotionValueEvent, useScroll, useSpring, useTransform, type MotionValue } from "motion/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import type { Project } from "@/types/project";
@@ -86,7 +86,7 @@ function StackCard({
   project: Project;
   index: number;
   total: number;
-  progress: ReturnType<typeof useScroll>["scrollYProgress"];
+  progress: MotionValue<number>;
   isActive: boolean;
   flowActive: boolean;
 }) {
@@ -144,8 +144,14 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
     target: containerRef,
     offset: ["start start", "end end"],
   });
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 68,
+    damping: 23,
+    mass: 0.58,
+    restDelta: 0.0005,
+  });
 
-  useMotionValueEvent(scrollYProgress, "change", (value) => {
+  useMotionValueEvent(smoothProgress, "change", (value) => {
     if (modeRef.current !== "scroll") return;
 
     const position = value * (projects.length - 1);
@@ -185,6 +191,7 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
         const scrollRange = Math.max(0, containerRef.current.offsetHeight - window.innerHeight);
         const progress = projects.length > 1 ? activeIndex / (projects.length - 1) : 0;
         scrollYProgress.set(progress);
+        smoothProgress.jump(progress);
         window.scrollTo({ top: containerTop + scrollRange * progress, behavior: "auto" });
         requestAnimationFrame(() => {
           setHoldManualCard(false);
@@ -291,7 +298,7 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
               project={project}
               index={index}
               total={projects.length}
-              progress={scrollYProgress}
+              progress={smoothProgress}
               isActive={activeIndex === index}
               flowActive={isInView && activeIndex === index}
             />

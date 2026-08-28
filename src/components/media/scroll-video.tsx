@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useReducedMotion, type MotionValue } from "motion/react";
+import type { MotionValue } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 type ScrollVideoProps = {
@@ -18,12 +18,11 @@ export function ScrollVideo({ progress, src, poster, priority = false, className
   const progressRef = useRef(progress.get());
   const displayTimeRef = useRef(0);
   const targetTimeRef = useRef(0);
-  const reduceMotion = useReducedMotion();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const videoElement = videoRef.current;
-    if (!videoElement || reduceMotion) return;
+    if (!videoElement) return;
     const video: HTMLVideoElement = videoElement;
 
     function stopFrame() {
@@ -40,7 +39,7 @@ export function ScrollVideo({ progress, src, poster, priority = false, className
       }
 
       const difference = targetTimeRef.current - displayTimeRef.current;
-      displayTimeRef.current += difference * 0.16;
+      displayTimeRef.current += difference * 0.2;
 
       if (!video.seeking && Math.abs(video.currentTime - displayTimeRef.current) > 0.018) {
         video.currentTime = displayTimeRef.current;
@@ -91,10 +90,10 @@ export function ScrollVideo({ progress, src, poster, priority = false, className
       video.removeEventListener("loadeddata", handleReady);
       video.removeEventListener("seeked", scheduleFrame);
     };
-  }, [progress, reduceMotion]);
+  }, [progress]);
 
   return (
-    <div className={`scroll-video ${className}`} data-ready={ready} data-reduced-motion={Boolean(reduceMotion)}>
+    <div className={`scroll-video ${className}`} data-ready={ready}>
       <Image
         className="scroll-video__poster"
         src={poster}
@@ -109,12 +108,12 @@ export function ScrollVideo({ progress, src, poster, priority = false, className
         className="scroll-video__video"
         muted
         playsInline
-        preload={priority ? "metadata" : "none"}
+        preload="metadata"
         poster={poster}
         aria-hidden="true"
         tabIndex={-1}
       >
-        <source src={src} type="video/mp4" media="(min-width: 769px) and (prefers-reduced-motion: no-preference)" />
+        <source src={src} type="video/mp4" media="(min-width: 769px)" />
       </video>
     </div>
   );
