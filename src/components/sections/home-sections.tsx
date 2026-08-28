@@ -3,7 +3,7 @@ import { Reveal } from "@/components/animations/reveal";
 import { CapabilityDiagram } from "@/components/diagrams/capability-diagram";
 import { HeroNetwork } from "@/components/diagrams/hero-network";
 import { HowIBuild } from "@/components/diagrams/how-i-build";
-import { ProjectStack } from "@/components/projects/project-stack";
+import { ProjectGrid } from "@/components/projects/project-grid";
 import { capabilities, learningTracks, socialLinks, stackGroups } from "@/data/site";
 import { projects } from "@/data/projects";
 
@@ -70,7 +70,7 @@ export function FeaturedWork() {
         <div><p className="eyebrow">Projetos em destaque</p><h2>Sistemas em produção.<br />Agentes em construção.</h2></div>
         <p>Cada projeto documenta o problema, a solução e a arquitetura. O que ainda não foi validado é marcado com transparência.</p>
       </Reveal>
-      <ProjectStack projects={projects} />
+      <ProjectGrid projects={projects} />
     </section>
   );
 }

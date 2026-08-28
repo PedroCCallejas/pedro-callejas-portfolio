@@ -3,9 +3,17 @@ import Link from "next/link";
 import type { Project } from "@/types/project";
 import { ProjectFlow } from "./project-flow";
 
-export function ProjectCard({ project, flowActive = true }: { project: Project; flowActive?: boolean }) {
+export function ProjectCard({
+  project,
+  flowActive = true,
+  compact = false,
+}: {
+  project: Project;
+  flowActive?: boolean;
+  compact?: boolean;
+}) {
   return (
-    <article className="project-card">
+    <article className={compact ? "project-card project-card--compact" : "project-card"}>
       <div className="project-card__number" aria-hidden="true">{project.index}</div>
       <div className="project-card__content">
         <div className="project-card__meta">
@@ -22,7 +30,7 @@ export function ProjectCard({ project, flowActive = true }: { project: Project; 
           Explorar projeto <ArrowUpRight size={16} />
         </Link>
       </div>
-      <ProjectFlow steps={project.architecture} active={flowActive} />
+      {compact ? null : <ProjectFlow steps={project.architecture} active={flowActive} />}
     </article>
   );
 }
