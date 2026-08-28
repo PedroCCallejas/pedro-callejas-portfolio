@@ -1,42 +1,17 @@
-import { ArrowDown, ArrowUpRight, Bot, BriefcaseBusiness, Clapperboard, Code2, Gamepad2, Mail } from "lucide-react";
+import { ArrowUpRight, Bot, BriefcaseBusiness, Clapperboard, Code2, Gamepad2, Mail } from "lucide-react";
 import { Reveal } from "@/components/animations/reveal";
 import { CapabilityDiagram } from "@/components/diagrams/capability-diagram";
-import { HeroNetwork } from "@/components/diagrams/hero-network";
 import { HowIBuild } from "@/components/diagrams/how-i-build";
+import { HeroScroll } from "@/components/hero/hero-scroll";
 import { ProjectStack } from "@/components/projects/project-stack";
+import { AIStudyMedia } from "@/components/sections/ai-study-media";
 import { capabilities, learningTracks, socialLinks, stackGroups } from "@/data/site";
 import { projects } from "@/data/projects";
 
 const learningIcons = [Gamepad2, Bot, Clapperboard];
 
 export function Hero() {
-  return (
-    <section className="hero section-shell" id="top">
-      <div className="hero-grid" aria-hidden="true" />
-      <div className="hero-copy">
-        <Reveal>
-          <p className="eyebrow"><span className="live-dot" /> Cuiabá, Brasil · Disponível para bons projetos</p>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <h1>
-            <span className="hero-name">Pedro Carvalho Callejas</span>
-            <span>Construo software</span>
-            <span className="text-gradient">que faz o trabalho.</span>
-          </h1>
-        </Reveal>
-        <Reveal delay={0.16}>
-          <p className="hero-description">Full Stack · IA · Automação</p>
-          <p className="hero-subtitle">Construindo sistemas inteligentes, automações e produtos digitais para problemas reais.</p>
-          <div className="hero-actions">
-            <a className="button focus-ring" href="#work">Ver projetos <ArrowDown size={16} /></a>
-            <a className="button button--ghost focus-ring" href={socialLinks.github} target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={16} /></a>
-          </div>
-        </Reveal>
-      </div>
-      <HeroNetwork />
-      <div className="hero-index mono" aria-hidden="true"><span>01</span><i /><span>07</span></div>
-    </section>
-  );
+  return <HeroScroll />;
 }
 
 export function WhatIBuild() {
@@ -123,6 +98,8 @@ export function Studies() {
         </div>
         <p>Alguns estudos nascem de necessidades profissionais. Outros começam como hobby — e acabam ampliando a forma como penso produtos e sistemas.</p>
       </Reveal>
+
+      <AIStudyMedia />
 
       <div className="learning-grid">
         {learningTracks.map((track, index) => {

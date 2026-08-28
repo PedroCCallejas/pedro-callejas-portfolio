@@ -15,8 +15,8 @@ type FlowStyle = CSSProperties & {
 const EDGE_DURATION = 0.32;
 const NODE_DURATION = 0.8;
 const CONNECTOR_DURATION = 0.14;
-const CYCLE_PAUSE = 0.35;
-const HANDOFF_OVERLAP = 0.018;
+const CYCLE_PAUSE = 0.12;
+const HANDOFF_OVERLAP = 0.045;
 
 function createSchedule(stepCount: number) {
   let cursor = 0;
@@ -64,7 +64,8 @@ function FlowLine({
 function FlowContour({ schedule, cycle }: { schedule: FlowSchedule; cycle: number }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 100 50" preserveAspectRatio="none">
-      <path d="M 1 25 V 1 H 99 V 49 H 1 Z" pathLength="1" style={flowStyle(schedule, cycle)} />
+      <path d="M 1 25 V 1 H 99 V 25" pathLength="1" style={flowStyle(schedule, cycle)} />
+      <path d="M 1 25 V 49 H 99 V 25" pathLength="1" style={flowStyle(schedule, cycle)} />
     </svg>
   );
 }

@@ -12,8 +12,13 @@ type ProjectStackProps = {
 
 type NavigationMode = "scroll" | "manual";
 
-const READING_PHASE = 0.56;
-const FLIP_MIDPOINT = 0.78;
+const READING_PHASE = 0.5;
+const ACTIVE_HANDOFF = 0.8;
+
+function smoothStep(value: number) {
+  const clamped = Math.min(1, Math.max(0, value));
+  return clamped * clamped * (3 - 2 * clamped);
+}
 
 function subscribeToMobileQuery(callback: () => void) {
   const query = window.matchMedia("(max-width: 768px)");
@@ -34,36 +39,39 @@ function cardMotion(value: number, index: number, total: number) {
   const distance = value * (total - 1) - index;
 
   if (distance >= 0 && distance <= READING_PHASE) {
-    return { opacity: 1, rotateX: 0, scale: 1, z: 0 };
+    return { opacity: 1, rotateY: 0, scale: 1, x: "0%", z: 0 };
   }
 
-  if (distance > READING_PHASE && distance < FLIP_MIDPOINT) {
-    const amount = (distance - READING_PHASE) / (FLIP_MIDPOINT - READING_PHASE);
+  if (distance > READING_PHASE && distance < 1) {
+    const amount = smoothStep((distance - READING_PHASE) / (1 - READING_PHASE));
     return {
       opacity: 1,
-      rotateX: amount * -90,
-      scale: 1 - amount * 0.04,
-      z: amount * -170,
+      rotateY: amount * -1.8,
+      scale: 1 - amount * 0.018,
+      x: `${amount * -16}%`,
+      z: amount * -70,
     };
   }
 
   const incomingPhase = distance + 1;
 
-  if (distance < 0 && incomingPhase >= FLIP_MIDPOINT && incomingPhase <= 1) {
-    const amount = (incomingPhase - FLIP_MIDPOINT) / (1 - FLIP_MIDPOINT);
+  if (distance < 0 && incomingPhase >= READING_PHASE && incomingPhase <= 1) {
+    const amount = smoothStep((incomingPhase - READING_PHASE) / (1 - READING_PHASE));
     return {
       opacity: 1,
-      rotateX: (1 - amount) * 90,
-      scale: 0.96 + amount * 0.04,
-      z: (1 - amount) * -170,
+      rotateY: (1 - amount) * 3.5,
+      scale: 0.98 + amount * 0.02,
+      x: `${(1 - amount) * 102}%`,
+      z: (1 - amount) * -45,
     };
   }
 
   return {
     opacity: 0,
-    rotateX: distance > 0 ? -90 : 90,
-    scale: 0.96,
-    z: -170,
+    rotateY: distance > 0 ? -1.8 : 3.5,
+    scale: 0.98,
+    x: distance > 0 ? "-16%" : "102%",
+    z: -100,
   };
 }
 
@@ -83,14 +91,15 @@ function StackCard({
   flowActive: boolean;
 }) {
   const opacity = useTransform(progress, (value) => cardMotion(value, index, total).opacity);
-  const rotateX = useTransform(progress, (value) => cardMotion(value, index, total).rotateX);
+  const rotateY = useTransform(progress, (value) => cardMotion(value, index, total).rotateY);
   const scale = useTransform(progress, (value) => cardMotion(value, index, total).scale);
+  const x = useTransform(progress, (value) => cardMotion(value, index, total).x);
   const z = useTransform(progress, (value) => cardMotion(value, index, total).z);
 
   return (
     <motion.div
       className="projects-stack__card"
-      style={{ opacity, scale, rotateX, z, pointerEvents: isActive ? "auto" : "none" }}
+      style={{ opacity, scale, rotateY, x, z, pointerEvents: isActive ? "auto" : "none" }}
       aria-hidden={!isActive}
       inert={!isActive}
       data-flow-active={flowActive}
@@ -142,7 +151,7 @@ function DesktopProjectShowcase({ projects }: ProjectStackProps) {
     const position = value * (projects.length - 1);
     const nextIndex = Math.min(
       projects.length - 1,
-      Math.floor(position + (1 - FLIP_MIDPOINT)),
+      Math.floor(position + (1 - ACTIVE_HANDOFF)),
     );
     setActiveIndex((current) => current === nextIndex ? current : nextIndex);
   });
