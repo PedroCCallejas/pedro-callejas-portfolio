@@ -34,7 +34,6 @@ export function Hero() {
         </Reveal>
       </div>
       <HeroNetwork />
-      <div className="hero-index mono" aria-hidden="true"><span>01</span><i /><span>07</span></div>
     </section>
   );
 }

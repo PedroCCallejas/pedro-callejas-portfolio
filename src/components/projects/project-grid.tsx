@@ -8,26 +8,22 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
 
   return (
     <div className="project-grid">
-      {flagship ? (
-        <div className="project-grid__feature">
-          <ProjectCard project={flagship} flowActive />
-        </div>
-      ) : null}
+      <p className="project-grid__label project-grid__label--production">Sistemas em produção</p>
+
+      {flagship ? <ProjectCard project={flagship} /> : null}
 
       {rest.length > 0 ? (
         <div className="project-grid__row">
-          {rest.map((project) => (
-            <ProjectCard key={project.slug} project={project} flowActive={false} compact />
-          ))}
+          {rest.map((project) => <ProjectCard key={project.slug} project={project} compact />)}
         </div>
       ) : null}
 
       {building.length > 0 ? (
         <div className="project-grid__building">
-          <p className="eyebrow" style={{ color: "#f0b569" }}>Em construção</p>
-          <ul className="project-mini-list">
+          <p className="project-grid__label project-grid__label--building">Em construção</p>
+          <div className="project-mini-list">
             {building.map((project) => (
-              <li key={project.slug} className="project-mini">
+              <article key={project.slug} className="project-mini">
                 <div className="project-mini__heading">
                   <div className="project-mini__meta">
                     <span className="mono text-muted">{project.index}</span>
@@ -37,11 +33,11 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                   <p>{project.statement}</p>
                 </div>
                 <div className="project-mini__tags">
-                  {project.stack.slice(0, 4).map((item) => <span key={item}>{item}</span>)}
+                  {project.stack.slice(0, 5).map((item) => <span key={item}>{item}</span>)}
                 </div>
-              </li>
+              </article>
             ))}
-          </ul>
+          </div>
         </div>
       ) : null}
     </div>
