@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, Bot, BriefcaseBusiness, Clapperboard, Code2, Gamepad2, Mail } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Bot, BriefcaseBusiness, Clapperboard, Code2, Gamepad2, Mail } from "lucide-react";
 import { Reveal } from "@/components/animations/reveal";
 import { CapabilityDiagram } from "@/components/diagrams/capability-diagram";
 import { HeroNetwork } from "@/components/diagrams/hero-network";
@@ -40,20 +40,34 @@ export function Hero() {
 
 export function WhatIBuild() {
   return (
-    <section className="section section-shell" id="capabilities">
-      <Reveal className="section-heading">
-        <p className="eyebrow">O que eu construo</p>
-        <h2>Software que conecta intenção a resultado.</h2>
-        <p>Não começo pela tecnologia. Começo pelo trabalho que precisa ser feito — e construo o sistema ao redor dele.</p>
+    <section className="section section-shell expertise-section" id="capabilities">
+      <Reveal className="section-heading section-heading--split expertise-heading">
+        <div>
+          <p className="eyebrow">EXPERTISE / 03</p>
+          <h2>Tecnologia que conecta<br />software, inteligência e automação.</h2>
+        </div>
+        <p>Da interface ao agente de IA, construo sistemas completos que conectam dados, software e automações em produtos funcionais.</p>
       </Reveal>
       <div className="capabilities-grid">
         {capabilities.map((item, index) => (
           <Reveal key={item.title} delay={index * 0.07}>
             <article className="capability-card">
-              <span className="mono text-muted">{item.number}</span>
-              <CapabilityDiagram nodes={item.nodes} />
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
+              <div className="capability-card__header">
+                <span className="mono">{item.number} / {item.label}</span>
+                <ArrowUpRight aria-hidden="true" size={17} strokeWidth={1.5} />
+              </div>
+              <CapabilityDiagram variant={item.kind} />
+              <div className="capability-card__divider" aria-hidden="true" />
+              <div className="capability-card__body">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <ul className="capability-card__tags" aria-label={`Tecnologias de ${item.title}`}>
+                  {item.tags.map((tag) => <li key={tag}>{tag}</li>)}
+                </ul>
+                <a className="capability-card__cta focus-ring" href="#work" aria-label={`Explorar projetos relacionados a ${item.title}`}>
+                  Explorar projetos <ArrowRight aria-hidden="true" size={15} />
+                </a>
+              </div>
             </article>
           </Reveal>
         ))}

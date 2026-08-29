@@ -8,21 +8,27 @@ export const navigation = [
 export const capabilities = [
   {
     number: "01",
+    label: "SYSTEMS",
+    kind: "systems" as const,
     title: "Sistemas inteligentes",
     description: "Aplicações completas que conectam interface, dados, regras de negócio, APIs e operação.",
-    nodes: ["UI", "API", "DADOS"],
+    tags: ["NEXT.JS", "NODE", "POSTGRESQL"],
   },
   {
     number: "02",
+    label: "AI AGENTS",
+    kind: "agents" as const,
     title: "IA e agentes",
     description: "Agentes que interpretam contexto, usam ferramentas e apoiam decisões com limites claros.",
-    nodes: ["LLM", "MCP", "AÇÕES"],
+    tags: ["LLM", "MCP", "RAG", "AGENTS"],
   },
   {
     number: "03",
+    label: "AUTOMATION",
+    kind: "automation" as const,
     title: "Automação",
     description: "Fluxos que reduzem tarefas repetitivas e fazem sistemas diferentes trabalharem juntos.",
-    nodes: ["EVENTO", "FLUXO", "AÇÃO"],
+    tags: ["WEBHOOKS", "APIs", "WORKFLOWS"],
   },
 ];
 
