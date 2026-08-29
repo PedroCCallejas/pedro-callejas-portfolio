@@ -56,13 +56,8 @@ export function HeroNetwork() {
     if (!video) return;
 
     video.muted = true;
-    if (reduceMotion) {
-      video.pause();
-      return;
-    }
-
     void video.play().catch(() => undefined);
-  }, [reduceMotion]);
+  }, []);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -74,55 +69,52 @@ export function HeroNetwork() {
     function render(time: number) {
       const elapsed = time / 1000;
       const delta = Math.min((time - previousTime) / 1000, 0.034);
+      const motionFactor = reduceMotion ? 0.72 : 1;
       previousTime = time;
       const positions = { ...fixedPositions };
 
       for (const actor of actors) {
         if (actor.id === "pc") continue;
-        positions[actor.id] = reduceMotion
-          ? { ...actor.anchor }
-          : {
-              x: actor.anchor.x + Math.sin(elapsed * actor.speed + actor.phase) * actor.amplitude,
-              y: actor.anchor.y + Math.cos(elapsed * actor.speed * 0.82 + actor.phase) * actor.amplitude,
-            };
+        positions[actor.id] = {
+          x: actor.anchor.x + Math.sin(elapsed * actor.speed + actor.phase) * actor.amplitude * motionFactor,
+          y: actor.anchor.y + Math.cos(elapsed * actor.speed * 0.82 + actor.phase) * actor.amplitude * motionFactor,
+        };
       }
 
-      if (!reduceMotion) {
-        const pc = pcRef.current;
-        const pointer = pointerRef.current;
-        const pointerDistance = Math.hypot(pointer.x - 0.5, pointer.y - 0.5);
+      const pc = pcRef.current;
+      const pointer = pointerRef.current;
+      const pointerDistance = Math.hypot(pointer.x - 0.5, pointer.y - 0.5);
 
-        pc.vx += Math.cos(elapsed * 0.67 + 0.4) * 0.009 * delta;
-        pc.vy += Math.sin(elapsed * 0.57 + 1.1) * 0.009 * delta;
+      pc.vx += Math.cos(elapsed * 0.67 + 0.4) * 0.009 * delta * motionFactor;
+      pc.vy += Math.sin(elapsed * 0.57 + 1.1) * 0.009 * delta * motionFactor;
 
-        if (pointer.active && pointerDistance < 0.43) {
-          pc.vx += (pointer.x - pc.x) * 0.12 * delta;
-          pc.vy += (pointer.y - pc.y) * 0.12 * delta;
-        }
-
-        const damping = Math.pow(0.995, delta * 60);
-        pc.vx *= damping;
-        pc.vy *= damping;
-        pc.x += pc.vx * delta;
-        pc.y += pc.vy * delta;
-
-        const offsetX = pc.x - 0.5;
-        const offsetY = pc.y - 0.5;
-        const distanceFromCenter = Math.hypot(offsetX, offsetY);
-        const movementRadius = 0.305;
-
-        if (distanceFromCenter > movementRadius) {
-          const normalX = offsetX / distanceFromCenter;
-          const normalY = offsetY / distanceFromCenter;
-          const radialVelocity = pc.vx * normalX + pc.vy * normalY;
-          pc.x = 0.5 + normalX * movementRadius;
-          pc.y = 0.5 + normalY * movementRadius;
-          pc.vx -= 1.75 * radialVelocity * normalX;
-          pc.vy -= 1.75 * radialVelocity * normalY;
-        }
-
-        positions.pc = { x: pc.x, y: pc.y };
+      if (pointer.active && pointerDistance < 0.43) {
+        pc.vx += (pointer.x - pc.x) * 0.12 * delta * motionFactor;
+        pc.vy += (pointer.y - pc.y) * 0.12 * delta * motionFactor;
       }
+
+      const damping = Math.pow(0.995, delta * 60);
+      pc.vx *= damping;
+      pc.vy *= damping;
+      pc.x += pc.vx * delta;
+      pc.y += pc.vy * delta;
+
+      const offsetX = pc.x - 0.5;
+      const offsetY = pc.y - 0.5;
+      const distanceFromCenter = Math.hypot(offsetX, offsetY);
+      const movementRadius = 0.305;
+
+      if (distanceFromCenter > movementRadius) {
+        const normalX = offsetX / distanceFromCenter;
+        const normalY = offsetY / distanceFromCenter;
+        const radialVelocity = pc.vx * normalX + pc.vy * normalY;
+        pc.x = 0.5 + normalX * movementRadius;
+        pc.y = 0.5 + normalY * movementRadius;
+        pc.vx -= 1.75 * radialVelocity * normalX;
+        pc.vy -= 1.75 * radialVelocity * normalY;
+      }
+
+      positions.pc = { x: pc.x, y: pc.y };
 
       for (const actor of actors) {
         const element = actorRefs.current[actor.id];
@@ -163,7 +155,7 @@ export function HeroNetwork() {
         element.style.setProperty("--proximity", String(proximity[actor.id]));
       }
 
-      if (!reduceMotion) animationFrame = requestAnimationFrame(render);
+      animationFrame = requestAnimationFrame(render);
     }
 
     render(previousTime);
@@ -171,14 +163,14 @@ export function HeroNetwork() {
   }, [reduceMotion]);
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
-    if (reduceMotion) return;
     const bounds = event.currentTarget.getBoundingClientRect();
     const pointerX = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
     const pointerY = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
+    const tiltStrength = reduceMotion ? 5 : 8;
 
     pointerRef.current = { x: pointerX, y: pointerY, active: true };
-    rawX.set((pointerX - 0.5) * 8);
-    rawY.set((pointerY - 0.5) * 8);
+    rawX.set((pointerX - 0.5) * tiltStrength);
+    rawY.set((pointerY - 0.5) * tiltStrength);
     stageRef.current?.style.setProperty("--pointer-x", `${pointerX * 100}%`);
     stageRef.current?.style.setProperty("--pointer-y", `${pointerY * 100}%`);
   }
