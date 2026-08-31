@@ -92,9 +92,9 @@ button { font: inherit; }
 .expertise-heading > p { max-width: 530px; margin: 0 0 5px; }
 .capabilities-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .capabilities-grid > div { height: 100%; }
-.capability-card { --diagram-speed: 7.2s; min-height: 600px; height: 100%; padding: 22px; position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.085); border-radius: 16px; background: linear-gradient(145deg, rgba(255,255,255,.034), rgba(255,255,255,.009) 58%, rgba(110,231,242,.012)); box-shadow: 0 22px 54px rgba(0,0,0,.16); transition: transform .42s cubic-bezier(.22,1,.36,1), border-color .42s ease, background .42s ease, box-shadow .42s ease; }
+.capability-card { --diagram-speed: 6.4s; --node-glow: .58; min-height: 600px; height: 100%; padding: 22px; position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.085); border-radius: 16px; background: linear-gradient(145deg, rgba(255,255,255,.034), rgba(255,255,255,.009) 58%, rgba(110,231,242,.012)); box-shadow: 0 22px 54px rgba(0,0,0,.16); transition: transform .42s cubic-bezier(.22,1,.36,1), border-color .42s ease, background .42s ease, box-shadow .42s ease; }
 .capability-card::before { content: ""; position: absolute; z-index: -1; inset: -20% -12% 42%; opacity: .32; background: radial-gradient(circle at 50% 42%, rgba(110,231,242,.095), transparent 54%); transform: scale(.88); transition: opacity .42s ease, transform .42s cubic-bezier(.22,1,.36,1); }
-.capability-card:is(:hover, :focus-within) { --diagram-speed: 5.6s; transform: translateY(-4px); border-color: rgba(110,231,242,.27); background: linear-gradient(145deg, rgba(255,255,255,.044), rgba(255,255,255,.012) 58%, rgba(110,231,242,.025)); box-shadow: 0 28px 64px rgba(0,0,0,.24); }
+.capability-card:is(:hover, :focus-within) { --node-glow: .86; transform: translateY(-4px); border-color: rgba(110,231,242,.27); background: linear-gradient(145deg, rgba(255,255,255,.044), rgba(255,255,255,.012) 58%, rgba(110,231,242,.025)); box-shadow: 0 28px 64px rgba(0,0,0,.24); }
 .capability-card:is(:hover, :focus-within)::before { opacity: .62; transform: scale(1); }
 .capability-card__header { min-height: 28px; display: flex; align-items: center; justify-content: space-between; color: #9ba3a7; font: 600 9px var(--font-geist-mono), monospace; letter-spacing: .14em; }
 .capability-card__header svg { color: #70787d; transition: color .35s ease, transform .35s cubic-bezier(.22,1,.36,1); }
@@ -103,8 +103,9 @@ button { font: inherit; }
 .capability-diagram::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(7,9,11,.36), transparent 20%, transparent 80%, rgba(7,9,11,.36)); }
 .capability-diagram__caption { position: absolute; z-index: 2; top: 11px; left: 12px; color: #5f696e; font-size: 7px; letter-spacing: .14em; }
 .capability-diagram svg { width: 100%; height: 100%; display: block; padding: 14px 8px 0; overflow: visible; }
-.capability-diagram__path { fill: none; stroke: rgba(110,231,242,.31); stroke-width: 1; stroke-dasharray: 5 8; animation: capability-path-flow 6.5s linear infinite; }
+.capability-diagram__path { fill: none; stroke: rgba(110,231,242,.4); stroke-width: 1; stroke-dasharray: 5 8; animation: capability-path-flow 5.4s linear infinite; transition: stroke .35s ease; }
 .capability-diagram__path--delay { animation-delay: -1.4s; }.capability-diagram__path--delay-2 { animation-delay: -2.8s; }.capability-diagram__path--delay-3 { animation-delay: -4.2s; }
+.capability-card:is(:hover, :focus-within) .capability-diagram__path { stroke: rgba(110,231,242,.58); }
 .capability-diagram__node rect { fill: rgba(8,12,15,.94); stroke: rgba(255,255,255,.13); stroke-width: 1; transition: fill .35s ease, stroke .35s ease; }
 .capability-diagram__node circle { fill: #697277; transition: fill .35s ease; }
 .capability-diagram__node text { fill: #aeb6ba; font: 600 8px var(--font-geist-mono), monospace; letter-spacing: .08em; }
@@ -112,12 +113,41 @@ button { font: inherit; }
 .capability-diagram__node--primary circle { fill: var(--cyan); }
 .capability-card:is(:hover, :focus-within) .capability-diagram__node rect { stroke: rgba(255,255,255,.2); }
 .capability-card:is(:hover, :focus-within) .capability-diagram__node--primary rect { fill: rgba(110,231,242,.075); stroke: rgba(110,231,242,.62); }
-.capability-diagram__pulse { fill: var(--cyan); opacity: 0; filter: drop-shadow(0 0 3px rgba(110,231,242,.72)); transform-origin: 0 0; will-change: transform, opacity; }
-.capability-diagram__pulse--systems-main { animation: capability-pulse-systems var(--diagram-speed) ease-in-out infinite; }
-.capability-diagram__pulse--systems-data { animation: capability-pulse-systems-data var(--diagram-speed) ease-in-out -2.6s infinite; }
-.capability-diagram__pulse--agents-main { animation: capability-pulse-agents var(--diagram-speed) ease-in-out infinite; }
-.capability-diagram__pulse--agents-mcp { animation: capability-pulse-agents-mcp var(--diagram-speed) ease-in-out -3.1s infinite; }
-.capability-diagram__pulse--automation { animation: capability-pulse-automation var(--diagram-speed) ease-in-out infinite; }
+.capability-diagram__node--systems-ui,
+.capability-diagram__node--systems-api,
+.capability-diagram__node--systems-services,
+.capability-diagram__node--systems-data,
+.capability-diagram__node--agents-context,
+.capability-diagram__node--agents-llm,
+.capability-diagram__node--agents-agent,
+.capability-diagram__node--agents-tools,
+.capability-diagram__node--agents-mcp,
+.capability-diagram__node--automation-event,
+.capability-diagram__node--automation-trigger,
+.capability-diagram__node--automation-workflow,
+.capability-diagram__node--automation-action,
+.capability-diagram__node--automation-result { animation: capability-node-beacon var(--diagram-speed) linear infinite; }
+.capability-diagram__node--systems-api { animation-delay: 1.55s; }
+.capability-diagram__node--systems-services { animation-delay: 3.2s; }
+.capability-diagram__node--systems-data { animation-delay: 5.05s; }
+.capability-diagram__node--agents-llm { animation-delay: 1.15s; }
+.capability-diagram__node--agents-agent { animation-delay: 2.65s; }
+.capability-diagram__node--agents-tools { animation-delay: 4s; }
+.capability-diagram__node--agents-mcp { animation-delay: 5.15s; }
+.capability-diagram__node--automation-trigger { animation-delay: 1.35s; }
+.capability-diagram__node--automation-workflow { animation-delay: 2.6s; }
+.capability-diagram__node--automation-action { animation-delay: 3.9s; }
+.capability-diagram__node--automation-result { animation-delay: 5.25s; }
+.capability-diagram__signal { opacity: 0; transform-origin: 0 0; will-change: transform, opacity; }
+.capability-diagram__signal-halo { fill: rgba(110,231,242,.17); stroke: rgba(110,231,242,.18); stroke-width: 1; transition: fill .35s ease, stroke .35s ease; }
+.capability-diagram__signal-core { fill: #c5fbff; filter: drop-shadow(0 0 4px rgba(110,231,242,.95)); }
+.capability-card:is(:hover, :focus-within) .capability-diagram__signal-halo { fill: rgba(110,231,242,.25); stroke: rgba(110,231,242,.3); }
+.capability-diagram__signal--systems-main { animation: capability-signal-systems-main var(--diagram-speed) linear infinite; }
+.capability-diagram__signal--systems-data { animation: capability-signal-systems-data var(--diagram-speed) linear infinite; }
+.capability-diagram__signal--agents-context { animation: capability-signal-agents-context var(--diagram-speed) linear infinite; }
+.capability-diagram__signal--agents-main { animation: capability-signal-agents-main var(--diagram-speed) linear infinite; }
+.capability-diagram__signal--agents-mcp { animation: capability-signal-agents-mcp var(--diagram-speed) linear infinite; }
+.capability-diagram__signal--automation { animation: capability-signal-automation var(--diagram-speed) linear infinite; }
 .capability-card__divider { height: 1px; margin: 20px 0 24px; background: linear-gradient(90deg, rgba(110,231,242,.22), rgba(255,255,255,.055) 42%, transparent); }
 .capability-card__body { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
 .capability-card h3 { margin: 0 0 14px; font-size: 29px; line-height: 1.08; letter-spacing: -.035em; font-weight: 550; }
@@ -265,40 +295,50 @@ button { font: inherit; }
 @keyframes rotate { to { transform: rotate(360deg); } }
 @keyframes node-float { 50% { transform: translateY(-1.4px); } }
 @keyframes capability-path-flow { to { stroke-dashoffset: -26; } }
-@keyframes capability-pulse-systems {
-  0%, 8% { opacity: 0; transform: translate(180px, 48px); }
-  15% { opacity: 1; }
-  38% { transform: translate(180px, 95px); }
-  68% { opacity: 1; transform: translate(302px, 95px); }
-  76%, 100% { opacity: 0; transform: translate(302px, 95px); }
+@keyframes capability-node-beacon {
+  0%, 16% { filter: drop-shadow(0 0 7px rgba(110,231,242,var(--node-glow))); }
+  24%, 100% { filter: none; }
 }
-@keyframes capability-pulse-systems-data {
-  0%, 18% { opacity: 0; transform: translate(180px, 95px); }
-  28% { opacity: 1; }
-  62% { opacity: 1; transform: translate(180px, 157px); }
-  72%, 100% { opacity: 0; transform: translate(180px, 157px); }
+@keyframes capability-signal-systems-main {
+  0% { opacity: 0; transform: translate(180px, 48px); }
+  4%, 10% { opacity: 1; transform: translate(180px, 48px); }
+  28%, 34% { opacity: 1; transform: translate(180px, 95px); }
+  55%, 60% { opacity: 1; transform: translate(302px, 95px); }
+  66%, 100% { opacity: 0; transform: translate(302px, 95px); }
 }
-@keyframes capability-pulse-agents {
-  0%, 8% { opacity: 0; transform: translate(58px, 95px); }
-  16% { opacity: 1; }
-  42% { transform: translate(180px, 95px); }
-  70% { opacity: 1; transform: translate(301px, 95px); }
-  78%, 100% { opacity: 0; transform: translate(301px, 95px); }
+@keyframes capability-signal-systems-data {
+  0%, 48% { opacity: 0; transform: translate(180px, 110px); }
+  53%, 60% { opacity: 1; transform: translate(180px, 110px); }
+  80%, 86% { opacity: 1; transform: translate(180px, 157px); }
+  92%, 100% { opacity: 0; transform: translate(180px, 157px); }
 }
-@keyframes capability-pulse-agents-mcp {
-  0%, 18% { opacity: 0; transform: translate(180px, 95px); }
-  28% { opacity: 1; }
-  62% { opacity: 1; transform: translate(180px, 157px); }
-  72%, 100% { opacity: 0; transform: translate(180px, 157px); }
+@keyframes capability-signal-agents-context {
+  0% { opacity: 0; transform: translate(180px, 48px); }
+  4%, 10% { opacity: 1; transform: translate(180px, 48px); }
+  21%, 25% { opacity: 1; transform: translate(180px, 80px); }
+  30%, 100% { opacity: 0; transform: translate(180px, 80px); }
 }
-@keyframes capability-pulse-automation {
-  0%, 7% { opacity: 0; transform: translate(45px, 95px); }
-  13% { opacity: 1; }
-  32% { transform: translate(138px, 95px); }
-  51% { transform: translate(234px, 95px); }
-  68% { transform: translate(320px, 95px); }
-  83% { opacity: 1; transform: translate(320px, 157px); }
-  91%, 100% { opacity: 0; transform: translate(320px, 157px); }
+@keyframes capability-signal-agents-main {
+  0%, 14% { opacity: 0; transform: translate(58px, 95px); }
+  19%, 24% { opacity: 1; transform: translate(58px, 95px); }
+  41%, 46% { opacity: 1; transform: translate(180px, 95px); }
+  63%, 68% { opacity: 1; transform: translate(301px, 95px); }
+  74%, 100% { opacity: 0; transform: translate(301px, 95px); }
+}
+@keyframes capability-signal-agents-mcp {
+  0%, 51% { opacity: 0; transform: translate(180px, 110px); }
+  56%, 62% { opacity: 1; transform: translate(180px, 110px); }
+  80%, 86% { opacity: 1; transform: translate(180px, 157px); }
+  92%, 100% { opacity: 0; transform: translate(180px, 157px); }
+}
+@keyframes capability-signal-automation {
+  0% { opacity: 0; transform: translate(45px, 95px); }
+  4%, 9% { opacity: 1; transform: translate(45px, 95px); }
+  21%, 26% { opacity: 1; transform: translate(138px, 95px); }
+  41%, 46% { opacity: 1; transform: translate(234px, 95px); }
+  61%, 66% { opacity: 1; transform: translate(320px, 95px); }
+  81%, 87% { opacity: 1; transform: translate(320px, 157px); }
+  94%, 100% { opacity: 0; transform: translate(320px, 157px); }
 }
 
 @media (max-height: 800px) and (min-width: 769px) {
@@ -357,6 +397,6 @@ button { font: inherit; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   .intro-loader { display: none; }
-  .capability-diagram__path, .capability-diagram__pulse { animation: none !important; }
+  .capability-diagram__path, .capability-diagram__signal, .capability-diagram__node { animation: none !important; }
   .capability-card:is(:hover, :focus-within) { transform: none; }
 }

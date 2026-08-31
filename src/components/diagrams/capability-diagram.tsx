@@ -3,6 +3,7 @@ import type { ComponentType } from "react";
 type CapabilityKind = "systems" | "agents" | "automation";
 
 type DiagramNodeProps = {
+  activity: string;
   label: string;
   width?: number;
   x: number;
@@ -10,15 +11,24 @@ type DiagramNodeProps = {
   primary?: boolean;
 };
 
-function DiagramNode({ label, width = 76, x, y, primary = false }: DiagramNodeProps) {
+function DiagramNode({ activity, label, width = 76, x, y, primary = false }: DiagramNodeProps) {
   return (
     <g
-      className={`capability-diagram__node${primary ? " capability-diagram__node--primary" : ""}`}
+      className={`capability-diagram__node capability-diagram__node--${activity}${primary ? " capability-diagram__node--primary" : ""}`}
       transform={`translate(${x} ${y})`}
     >
       <rect width={width} height="30" rx="5" />
       <circle cx="12" cy="15" r="2.5" />
       <text x="22" y="18.5">{label}</text>
+    </g>
+  );
+}
+
+function DiagramSignal({ name }: { name: string }) {
+  return (
+    <g className={`capability-diagram__signal capability-diagram__signal--${name}`}>
+      <circle className="capability-diagram__signal-halo" r="9" />
+      <circle className="capability-diagram__signal-core" r="3.8" />
     </g>
   );
 }
@@ -30,13 +40,13 @@ function SystemsDiagram() {
       <path className="capability-diagram__path capability-diagram__path--delay" d="M218 95H252" />
       <path className="capability-diagram__path capability-diagram__path--delay-2" d="M180 110V142" />
 
-      <DiagramNode label="UI" x={142} y={18} />
-      <DiagramNode label="API" x={142} y={80} primary />
-      <DiagramNode label="SERVIÇOS" width={100} x={252} y={80} />
-      <DiagramNode label="DADOS" width={82} x={139} y={142} />
+      <DiagramNode activity="systems-ui" label="UI" x={142} y={18} />
+      <DiagramNode activity="systems-api" label="API" x={142} y={80} primary />
+      <DiagramNode activity="systems-services" label="SERVIÇOS" width={100} x={252} y={80} />
+      <DiagramNode activity="systems-data" label="DADOS" width={82} x={139} y={142} />
 
-      <circle className="capability-diagram__pulse capability-diagram__pulse--systems-main" r="3" />
-      <circle className="capability-diagram__pulse capability-diagram__pulse--systems-data" r="2.5" />
+      <DiagramSignal name="systems-main" />
+      <DiagramSignal name="systems-data" />
     </svg>
   );
 }
@@ -50,15 +60,16 @@ function AgentsDiagram() {
       <path className="capability-diagram__path capability-diagram__path--delay-3" d="M180 110V142" />
       <path className="capability-diagram__path capability-diagram__path--delay-2" d="M96 157H142" />
 
-      <DiagramNode label="CONTEXTO" width={96} x={132} y={18} />
-      <DiagramNode label="LLM" x={20} y={80} />
-      <DiagramNode label="AGENTE" x={142} y={80} primary />
-      <DiagramNode label="TOOLS" width={78} x={262} y={80} />
-      <DiagramNode label="MEMORY" x={20} y={142} />
-      <DiagramNode label="MCP" x={142} y={142} />
+      <DiagramNode activity="agents-context" label="CONTEXTO" width={96} x={132} y={18} />
+      <DiagramNode activity="agents-llm" label="LLM" x={20} y={80} />
+      <DiagramNode activity="agents-agent" label="AGENTE" x={142} y={80} primary />
+      <DiagramNode activity="agents-tools" label="TOOLS" width={78} x={262} y={80} />
+      <DiagramNode activity="idle" label="MEMORY" x={20} y={142} />
+      <DiagramNode activity="agents-mcp" label="MCP" x={142} y={142} />
 
-      <circle className="capability-diagram__pulse capability-diagram__pulse--agents-main" r="3" />
-      <circle className="capability-diagram__pulse capability-diagram__pulse--agents-mcp" r="2.5" />
+      <DiagramSignal name="agents-context" />
+      <DiagramSignal name="agents-main" />
+      <DiagramSignal name="agents-mcp" />
     </svg>
   );
 }
@@ -71,13 +82,13 @@ function AutomationDiagram() {
       <path className="capability-diagram__path capability-diagram__path--delay-2" d="M278 95H288" />
       <path className="capability-diagram__path capability-diagram__path--delay-3" d="M320 110V142" />
 
-      <DiagramNode label="EVENT" width={74} x={8} y={80} />
-      <DiagramNode label="TRIGGER" width={80} x={98} y={80} />
-      <DiagramNode label="WORKFLOW" width={88} x={190} y={80} primary />
-      <DiagramNode label="AÇÃO" width={64} x={288} y={80} />
-      <DiagramNode label="RESULTADO" width={96} x={256} y={142} />
+      <DiagramNode activity="automation-event" label="EVENT" width={74} x={8} y={80} />
+      <DiagramNode activity="automation-trigger" label="TRIGGER" width={80} x={98} y={80} />
+      <DiagramNode activity="automation-workflow" label="WORKFLOW" width={88} x={190} y={80} primary />
+      <DiagramNode activity="automation-action" label="AÇÃO" width={64} x={288} y={80} />
+      <DiagramNode activity="automation-result" label="RESULTADO" width={96} x={256} y={142} />
 
-      <circle className="capability-diagram__pulse capability-diagram__pulse--automation" r="3" />
+      <DiagramSignal name="automation" />
     </svg>
   );
 }
