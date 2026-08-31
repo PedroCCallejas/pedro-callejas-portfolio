@@ -1,10 +1,10 @@
-import { ArrowDown, ArrowRight, ArrowUpRight, Bot, BriefcaseBusiness, Clapperboard, Code2, Gamepad2, Mail } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Bot, BriefcaseBusiness, Clapperboard, Code2, Gamepad2, Mail } from "lucide-react";
 import { Reveal } from "@/components/animations/reveal";
-import { CapabilityDiagram } from "@/components/diagrams/capability-diagram";
 import { HeroNetwork } from "@/components/diagrams/hero-network";
 import { HowIBuild } from "@/components/diagrams/how-i-build";
 import { ProjectGrid } from "@/components/projects/project-grid";
-import { capabilities, learningTracks, socialLinks, stackGroups } from "@/data/site";
+import { ExpertiseSection } from "@/components/sections/expertise-section";
+import { learningTracks, socialLinks, stackGroups } from "@/data/site";
 import { projects } from "@/data/projects";
 
 const learningIcons = [Gamepad2, Bot, Clapperboard];
@@ -39,41 +39,7 @@ export function Hero() {
 }
 
 export function WhatIBuild() {
-  return (
-    <section className="section section-shell expertise-section" id="capabilities">
-      <Reveal className="section-heading section-heading--split expertise-heading">
-        <div>
-          <p className="eyebrow">EXPERTISE / 03</p>
-          <h2>Tecnologia que conecta<br />software, inteligência e automação.</h2>
-        </div>
-        <p>Da interface ao agente de IA, construo sistemas completos que conectam dados, software e automações em produtos funcionais.</p>
-      </Reveal>
-      <div className="capabilities-grid">
-        {capabilities.map((item, index) => (
-          <Reveal key={item.title} delay={index * 0.07}>
-            <article className="capability-card">
-              <div className="capability-card__header">
-                <span className="mono">{item.number} / {item.label}</span>
-                <ArrowUpRight aria-hidden="true" size={17} strokeWidth={1.5} />
-              </div>
-              <CapabilityDiagram variant={item.kind} />
-              <div className="capability-card__divider" aria-hidden="true" />
-              <div className="capability-card__body">
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <ul className="capability-card__tags" aria-label={`Tecnologias de ${item.title}`}>
-                  {item.tags.map((tag) => <li key={tag}>{tag}</li>)}
-                </ul>
-                <a className="capability-card__cta focus-ring" href="#work" aria-label={`Explorar projetos relacionados a ${item.title}`}>
-                  Explorar projetos <ArrowRight aria-hidden="true" size={15} />
-                </a>
-              </div>
-            </article>
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
+  return <ExpertiseSection />;
 }
 
 export function FeaturedWork() {

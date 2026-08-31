@@ -89,7 +89,17 @@ button { font: inherit; }
 .expertise-section { position: relative; }
 .expertise-heading { margin-bottom: 54px; align-items: end; }
 .expertise-heading h2 { max-width: 820px; font-size: clamp(2.8rem, 4.2vw, 4.7rem); }
-.expertise-heading > p { max-width: 530px; margin: 0 0 5px; }
+.expertise-heading__aside { max-width: 530px; margin: 0 0 5px; }
+.expertise-heading__aside > p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
+.expertise-motion-toggle { margin-top: 18px; min-height: 34px; padding: 7px 10px; display: inline-flex; align-items: center; gap: 9px; color: #778186; border: 1px solid rgba(255,255,255,.085); border-radius: 999px; background: rgba(6,9,11,.54); cursor: pointer; transition: color .28s ease, border-color .28s ease, background .28s ease; }
+.expertise-motion-toggle > span:first-child, .expertise-motion-toggle strong { font-size: 7px; letter-spacing: .12em; font-weight: 600; }
+.expertise-motion-toggle strong { color: #9aa3a7; transition: color .28s ease; }
+.expertise-motion-toggle__track { width: 30px; height: 16px; padding: 2px; display: block; border: 1px solid rgba(255,255,255,.11); border-radius: 999px; background: rgba(255,255,255,.025); }
+.expertise-motion-toggle__track i { width: 10px; height: 10px; display: block; border-radius: 50%; background: #646d72; transition: transform .32s cubic-bezier(.22,1,.36,1), background .28s ease, box-shadow .28s ease; }
+.expertise-motion-toggle[aria-pressed="true"] { color: #9db6ba; border-color: rgba(110,231,242,.2); background: rgba(110,231,242,.025); }
+.expertise-motion-toggle[aria-pressed="true"] strong { color: var(--cyan); }
+.expertise-motion-toggle[aria-pressed="true"] .expertise-motion-toggle__track i { transform: translateX(14px); background: var(--cyan); box-shadow: 0 0 9px rgba(110,231,242,.5); }
+.expertise-motion-toggle:is(:hover, :focus-visible) { color: #c4cccf; border-color: rgba(110,231,242,.28); }
 .capabilities-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .capabilities-grid > div { height: 100%; }
 .capability-card { --diagram-speed: 6.4s; --node-glow: .58; min-height: 600px; height: 100%; padding: 22px; position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.085); border-radius: 16px; background: linear-gradient(145deg, rgba(255,255,255,.034), rgba(255,255,255,.009) 58%, rgba(110,231,242,.012)); box-shadow: 0 22px 54px rgba(0,0,0,.16); transition: transform .42s cubic-bezier(.22,1,.36,1), border-color .42s ease, background .42s ease, box-shadow .42s ease; }
@@ -148,6 +158,9 @@ button { font: inherit; }
 .capability-diagram__signal--agents-main { animation: capability-signal-agents-main var(--diagram-speed) linear infinite; }
 .capability-diagram__signal--agents-mcp { animation: capability-signal-agents-mcp var(--diagram-speed) linear infinite; }
 .capability-diagram__signal--automation { animation: capability-signal-automation var(--diagram-speed) linear infinite; }
+.expertise-section[data-diagram-motion="paused"] .capability-diagram__path,
+.expertise-section[data-diagram-motion="paused"] .capability-diagram__signal,
+.expertise-section[data-diagram-motion="paused"] .capability-diagram__node { animation-play-state: paused !important; }
 .capability-card__divider { height: 1px; margin: 20px 0 24px; background: linear-gradient(90deg, rgba(110,231,242,.22), rgba(255,255,255,.055) 42%, transparent); }
 .capability-card__body { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
 .capability-card h3 { margin: 0 0 14px; font-size: 29px; line-height: 1.08; letter-spacing: -.035em; font-weight: 550; }
@@ -370,7 +383,7 @@ button { font: inherit; }
   .section-shell { width: min(calc(100% - 32px), var(--max)); }.section { padding-block: 96px; }
   .desktop-nav { display: none; }.menu-button { display: grid; place-items: center; }
   .hero { min-height: auto; padding-top: 142px; padding-bottom: 100px; grid-template-columns: 1fr; gap: 0; }.hero h1 { font-size: clamp(3.05rem, 14vw, 4rem); line-height: .99; }.hero-network { width: 100%; max-width: 440px; margin: 58px auto 0; justify-self: center; }.hero-grid { background-size: 48px 48px; }
-  .section-heading--split { grid-template-columns: 1fr; gap: 12px; }.section-heading h2, .about-grid h2 { font-size: clamp(2.8rem, 12vw, 5rem); }
+  .section-heading--split { grid-template-columns: 1fr; gap: 12px; }.section-heading h2, .about-grid h2 { font-size: clamp(2.8rem, 12vw, 5rem); }.expertise-heading__aside { margin-top: 10px; }.expertise-motion-toggle { margin-top: 14px; }
   .capabilities-grid { grid-template-columns: 1fr; gap: 14px; }.capability-card { min-height: 560px; }.capability-diagram { height: 218px; }
   .project-grid__row { grid-template-columns: 1fr; }.project-card { min-height: auto; padding: 26px; flex-direction: column; border-radius: 18px; }.project-card__visual { min-height: 240px; flex: 0 0 240px; }.project-card--compact { min-height: auto; }.project-card--compact .project-card__visual { min-height: 210px; }.project-flow { overflow-x: auto; padding-bottom: 6px; flex-wrap: nowrap; }.project-flow__step { flex: 0 0 auto; }.project-mini { align-items: flex-start; }.project-mini__tags { max-width: none; }
   .architecture-board { grid-template-columns: 1fr; }.architecture-flow { min-height: 520px; padding: 24px; }.architecture-grid { grid-template-columns: 1fr 1fr; }.architecture-node:nth-child(4), .architecture-node:nth-child(5) { grid-column: auto; }.architecture-detail { border-left: 0; border-top: 1px solid var(--line); }
@@ -397,6 +410,8 @@ button { font: inherit; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   .intro-loader { display: none; }
-  .capability-diagram__path, .capability-diagram__signal, .capability-diagram__node { animation: none !important; }
+  .expertise-section[data-diagram-motion="enabled"] .capability-diagram__path { animation-duration: 5.4s !important; animation-iteration-count: infinite !important; }
+  .expertise-section[data-diagram-motion="enabled"] .capability-diagram__signal,
+  .expertise-section[data-diagram-motion="enabled"] .capability-diagram__node { animation-duration: var(--diagram-speed) !important; animation-iteration-count: infinite !important; animation-play-state: running !important; }
   .capability-card:is(:hover, :focus-within) { transform: none; }
 }
